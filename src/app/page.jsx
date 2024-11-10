@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import React, { useState, useRef } from "react";
 
+import Logo from "@/components/Logo";
 import DeployModeSelector from "@/components/DeployModeSelector";
 import UrlInputArea from "@/components/UrlInputArea";
 import NotionPageRenderer from "@/components/NotionPageRenderer";
@@ -91,31 +91,7 @@ export default function Home() {
       bg="gray.100"
       overflowY="hidden"
     >
-      <motion.div
-        initial={{ zoom: 1, x: 0 }}
-        animate={
-          isRendered
-            ? { zoom: 0.1, x: "-470vw" }
-            : isLoading
-              ? { zoom: 0.1 }
-              : { zoom: 1 }
-        }
-        transition={{ duration: 0.8 }}
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Box>
-          <Image
-            src="/notiondrop.svg"
-            alt="notiondrop logo"
-            width={800}
-            height={400}
-          />
-        </Box>
-      </motion.div>
+      <Logo isLoading={isLoading} isRendered={isRendered} />
       <Box
         display="flex"
         flexDirection="row"
