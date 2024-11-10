@@ -13,17 +13,8 @@ import LoadingAnimation from "@/components/LoadingAnimation";
 import { fetchNotionPage } from "@/actions/fetchNotionPage";
 import { deployNotionPage } from "@/actions/deployNotionPage";
 import { motion } from "framer-motion";
-import {
-  Box,
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import DeployModal from "@/components/DeployModal";
 
 export default function Home() {
   const [deployMode, setDeployMode] = useState("full");
@@ -37,7 +28,6 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isRendered, setIsRendered] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
   const renderSectionRef = useRef(null);
 
   const handleFetch = async () => {
@@ -217,64 +207,11 @@ export default function Home() {
           </Box>
         </motion.div>
       </Box>
-
-      <Modal isOpen={isModalOpen} onClose={closeModal} isCentered>
-        <ModalOverlay width={"100%"} height={"100%"} />
-        <ModalContent>
-          <ModalHeader>
-            {modalMessage.includes("배포된")
-              ? "배포 완료!"
-              : modalMessage.includes("도메인")
-                ? "도메인 중복 오류"
-                : "배포 중 오류 발생"}
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {modalMessage}
-            {modalMessage.includes("배포된") && (
-              <>
-                <Button
-                  bg="gray.300"
-                  onClick={async () => {
-                    const textToCopy = modalMessage.split(": ")[1];
-                    try {
-                      await navigator.clipboard.writeText(textToCopy);
-                      setIsCopied(true);
-                    } catch (err) {
-                      console.error("복사 중 오류 발생:", err);
-                    }
-                  }}
-                  h={8}
-                  w={10}
-                  ml={2}
-                  p={2.5}
-                >
-                  <Image
-                    src="/copy.svg"
-                    alt="Copy Icon"
-                    width={96}
-                    height={96}
-                  />
-                </Button>
-                <p
-                  style={{
-                    color: "green",
-                    marginLeft: "10px",
-                    minHeight: "24px",
-                  }}
-                >
-                  {isCopied ? "주소가 복사되었습니다." : ""}
-                </p>
-              </>
-            )}
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={closeModal}>
-              닫기
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <DeployModal
+        isModalOpen={isModalOpen}
+        modalMessage={modalMessage}
+        closeModal={closeModal}
+      />
     </Box>
   );
 }
