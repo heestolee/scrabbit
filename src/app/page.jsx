@@ -1,85 +1,18 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-
-import Logo from "@/components/Logo";
-import DeployModeSelector from "@/components/DeployModeSelector";
-import UrlInputArea from "@/components/UrlInputArea";
-import NotionPageRenderer from "@/components/NotionPageRenderer";
-import DomainInputArea from "@/components/DomainInputArea";
-import DeployPreviewRenderer from "@/components/DeployPreviewRenderer";
-import LoadingAnimation from "@/components/LoadingAnimation";
-
-import { fetchNotionPage } from "@/actions/fetchNotionPage";
-import { deployNotionPage } from "@/actions/deployNotionPage";
-import { motion } from "framer-motion";
+import { useState } from "react";
 import { Box } from "@chakra-ui/react";
-import DeployModal from "@/components/DeployModal";
+import Logo from "@/components/Logo";
+import ContentInteractionPanel from "@/components/ContentInteractionPanel";
+import DeploymentPanel from "@/components/DeploymentPanel";
 
 export default function Home() {
   const [deployMode, setDeployMode] = useState("full");
-  const [notionUrl, setNotionUrl] = useState("");
-  const [snapshotHtml, setSnapshotHtml] = useState(null);
-  const [subdomain, setSubdomain] = useState("");
   const [notionPageId, setNotionPageId] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedBlocks, setSelectedBlocks] = useState([]);
+  const [snapshotHtml, setSnapshotHtml] = useState(null);
   const [selectedBlocksHtml, setSelectedBlocksHtml] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [isRendered, setIsRendered] = useState(false);
-  const renderSectionRef = useRef(null);
-
-  const handleFetch = async () => {
-    setIsLoading(true);
-
-    const { pageId, snapshotHtml, error } = await fetchNotionPage(notionUrl);
-    if (error) {
-      console.error(error);
-      setIsLoading(false);
-      return;
-    }
-
-    setNotionPageId(pageId);
-    setSnapshotHtml(snapshotHtml);
-    setIsRendered(true);
-    setIsLoading(false);
-  };
-
-  const handleDeploy = async () => {
-    if (!subdomain) {
-      alert("도메인을 입력하세요.");
-      return;
-    }
-
-    const { url, error } = await deployNotionPage({
-      notionPageId,
-      subdomain,
-      deployMode,
-      selectedBlocksHtml,
-      snapshotHtml,
-    });
-
-    if (error) {
-      setModalMessage(error);
-    } else {
-      setModalMessage(`배포된 사이트: ${url}`);
-    }
-    setIsModalOpen(true);
-  };
-
-  const handleSelectBlock = (blockId) => {
-    setSelectedBlocks((prev) =>
-      prev.includes(blockId)
-        ? prev.filter((id) => id !== blockId)
-        : [...prev, blockId],
-    );
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setIsCopied(false);
-  };
 
   return (
     <Box
@@ -91,103 +24,31 @@ export default function Home() {
       bg="gray.100"
       overflowY="hidden"
     >
-      <Logo isLoading={isLoading} isRendered={isRendered} />
-      <Box
-        display="flex"
-        flexDirection="row"
-        w="full"
-        justifyContent="space-around"
-        height="100%"
-      >
-        <Box display="flex" flexDirection="column" alignItems="center" h="50%">
-          <Box
-            display="flex"
-            flexDirection={notionPageId ? "row" : "column"}
-            alignItems={notionPageId ? "baseline" : "center"}
-            justifyContent="space-between"
-            w="100%"
-          >
-            <DeployModeSelector
-              deployMode={deployMode}
-              setDeployMode={setDeployMode}
-            />
-            <UrlInputArea
-              deployMode={deployMode}
-              notionUrl={notionUrl}
-              setNotionUrl={setNotionUrl}
-              handleFetch={handleFetch}
-              isLoading={isLoading}
-            />
-          </Box>
+      <Logo isRendered={isRendered} isLoading={isLoading}/>
+      <Box display="flex" flexDirection="row" w="full" justifyContent="space-around" height="100%">
+        <ContentInteractionPanel
+          notionPageId={notionPageId}
+          deployMode={deployMode}
+          setDeployMode={setDeployMode}
+          snapshotHtml={snapshotHtml}
+          selectedBlocksHtml={selectedBlocksHtml}
+          setSelectedBlocksHtml={setSelectedBlocksHtml}
+          setNotionPageId={setNotionPageId}
+          setSnapshotHtml={setSnapshotHtml}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          setIsRendered={setIsRendered}
+        />
 
-          {notionPageId && (
-            <Box
-              h="100%"
-              w="100%"
-              mx="auto"
-              bg="white"
-              overflowY="auto"
-              overflowX="hidden"
-              sx={{
-                "&::-webkit-scrollbar": {
-                  width: "0.625rem",
-                  padding: "0.625rem",
-                  margin: "0.625rem",
-                },
-                "&::-webkit-scrollbar-track": {
-                  background: "var(--chakra-colors-gray-400)",
-                  borderRadius: "0.625rem",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  backgroundColor: "var(--chakra-colors-purple-300)",
-                  borderRadius: "0.625rem",
-                },
-              }}
-            >
-              {isLoading && <LoadingAnimation />}
-              {snapshotHtml && (
-                <NotionPageRenderer
-                  deployMode={deployMode}
-                  snapshotHtml={snapshotHtml}
-                  selectedBlocks={selectedBlocks}
-                  handleSelectBlock={handleSelectBlock}
-                  setSelectedBlocksHtml={setSelectedBlocksHtml}
-                />
-              )}
-            </Box>
-          )}
-        </Box>
-
-        <motion.div
-          initial={{ width: "0%" }}
-          animate={isRendered ? { width: "30%" } : {}}
-          transition={{ duration: 1 }}
-          style={{
-            transformOrigin: "left",
-            display: isRendered ? "block" : "none",
-          }}
-        >
-          <Box ref={renderSectionRef} display="flex" flexDirection="column">
-            <DomainInputArea
-              subdomain={subdomain}
-              setSubdomain={setSubdomain}
-              handleDeploy={handleDeploy}
-            />
-            <DeployPreviewRenderer
-              deployMode={deployMode}
-              selectedBlocks={selectedBlocks}
-              selectedBlocksHtml={selectedBlocksHtml}
-              setSelectedBlocksHtml={setSelectedBlocksHtml}
-              width="90%"
-            />
-          </Box>
-        </motion.div>
+        <DeploymentPanel
+          isRendered={isRendered}
+          deployMode={deployMode}
+          notionPageId={notionPageId}
+          selectedBlocksHtml={selectedBlocksHtml}
+          setSelectedBlocksHtml={setSelectedBlocksHtml}
+          snapshotHtml={snapshotHtml}
+        />
       </Box>
-      <DeployModal
-        isModalOpen={isModalOpen}
-        modalMessage={modalMessage}
-        closeModal={closeModal}
-      />
     </Box>
   );
 }
