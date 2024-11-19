@@ -3,7 +3,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { Box } from "@chakra-ui/react";
 
-export default function NotionPageRenderer({
+export default function FetchedPageRenderer({
   snapshotHtml,
   deployMode,
   selectedBlocksHtml,
@@ -19,6 +19,9 @@ export default function NotionPageRenderer({
       const blockElement = event.currentTarget;
       const blockId =
         blockElement.getAttribute("data-block-id") || blockElement.textContent;
+
+      console.log("선택한 블록아이디: ", blockId);
+      console.log("선택한 블록 : ", blockElement);
 
       if (deployMode === "partial") {
         blockElement.style.outline = "none";

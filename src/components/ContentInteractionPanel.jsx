@@ -3,36 +3,36 @@ import { Box } from "@chakra-ui/react";
 import DeployModeSelector from "@/components/DeployModeSelector";
 import UrlInputArea from "@/components/UrlInputArea";
 import LoadingAnimation from "@/components/LoadingAnimation";
-import NotionPageRenderer from "@/components/NotionPageRenderer";
-import { fetchNotionPage } from "@/actions/fetchNotionPage";
+import FetchedPageRenderer from "@/components/FetchedPageRenderer";
+import { fetchPage } from "@/actions/fetchPage";
 
 export default function ContentInteractionPanel({
-  notionPageId,
+  pageId,
   deployMode,
   setDeployMode,
   snapshotHtml,
   selectedBlocksHtml,
   setSelectedBlocksHtml,
-  setNotionPageId,
+  setPageId,
   setSnapshotHtml,
   isLoading,
   setIsLoading,
   setIsRendered,
 }) {
-  const [notionUrl, setNotionUrl] = useState("");
+  const [sourceUrl, setSourceUrl] = useState("");
 
   const handleFetch = async () => {
     setIsLoading(true);
     setSnapshotHtml(null);
 
-    const { pageId, snapshotHtml, error } = await fetchNotionPage(notionUrl);
+    const { pageId, snapshotHtml, error } = await fetchPage(sourceUrl);
     if (error) {
       console.error(error);
       setIsLoading(false);
       return;
     }
 
-    setNotionPageId(pageId);
+    setPageId(pageId);
     setSnapshotHtml(snapshotHtml);
     setIsLoading(false);
     setIsRendered(true);
@@ -48,8 +48,8 @@ export default function ContentInteractionPanel({
     >
       <Box
         display="flex"
-        flexDirection={notionPageId ? "row" : "column"}
-        alignItems={notionPageId ? "baseline" : "center"}
+        flexDirection={pageId ? "row" : "column"}
+        alignItems={pageId ? "baseline" : "center"}
         justifyContent="space-between"
         w="100%"
       >
@@ -59,19 +59,20 @@ export default function ContentInteractionPanel({
         />
         <UrlInputArea
           deployMode={deployMode}
-          notionUrl={notionUrl}
-          setNotionUrl={setNotionUrl}
+          sourceUrl={sourceUrl}
+          setSourceUrl={setSourceUrl}
           handleFetch={handleFetch}
           isLoading={isLoading}
         />
       </Box>
 
-      {(notionPageId || isLoading) && (
+      {(pageId || isLoading) && (
         <Box
           h="80vh"
           w="100%"
           mx="auto"
           bg="white"
+          alignContent="center"
           overflowY="auto"
           overflowX="hidden"
           sx={{
@@ -92,7 +93,7 @@ export default function ContentInteractionPanel({
         >
           {isLoading && <LoadingAnimation />}
           {snapshotHtml && (
-            <NotionPageRenderer
+            <FetchedPageRenderer
               deployMode={deployMode}
               snapshotHtml={snapshotHtml}
               selectedBlocksHtml={selectedBlocksHtml}

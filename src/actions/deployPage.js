@@ -1,7 +1,7 @@
 "use server";
 
-export async function deployNotionPage({
-  notionPageId,
+export async function deployPage({
+  pageId,
   subdomain,
   deployMode,
   selectedBlocksHtml,
@@ -21,7 +21,7 @@ export async function deployNotionPage({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        notionPageId,
+        pageId,
         subdomain,
         deployMode,
         deployContent: deploySetting.deployContent,

@@ -2,8 +2,8 @@ import puppeteer from "puppeteer";
 import defaultEvaluate from "./evaluation/defaultEvaluate";
 import notionEvaluate from "./evaluation/notionEvaluate";
 
-export default async function takePreviewSnapshot(notionUrl) {
-  console.log("Puppeteer 시작:", notionUrl);
+export default async function takePreviewSnapshot(sourceUrl) {
+  console.log("Puppeteer 시작:", sourceUrl);
 
   const browser = await puppeteer.launch({
     headless: true,
@@ -20,8 +20,8 @@ export default async function takePreviewSnapshot(notionUrl) {
   await page.setViewport({ width: 1200, height: 800 });
 
   try {
-    console.log("Puppeteer 페이지 이동 중:", notionUrl);
-    await page.goto(notionUrl, {
+    console.log("Puppeteer 페이지 이동 중:", sourceUrl);
+    await page.goto(sourceUrl, {
       waitUntil: "networkidle2",
       timeout: 120000,
     });
@@ -31,7 +31,7 @@ export default async function takePreviewSnapshot(notionUrl) {
     console.log("폰트 로드 완료");
 
     switch (true) {
-      case notionUrl.includes("notion.site"):
+      case sourceUrl.includes("notion.site"):
         await notionEvaluate(page);
         break;
       default:

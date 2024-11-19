@@ -2,8 +2,8 @@ import React from "react";
 import { Box, Input, Button, FormControl } from "@chakra-ui/react";
 
 export default function UrlInputArea({
-  notionUrl,
-  setNotionUrl,
+  sourceUrl,
+  setSourceUrl,
   handleFetch,
   isLoading,
 }) {
@@ -27,9 +27,9 @@ export default function UrlInputArea({
       <FormControl width="100%" isRequired>
         <Input
           type="text"
-          value={notionUrl}
+          value={sourceUrl}
           bg={"white"}
-          onChange={(e) => setNotionUrl(e.target.value)}
+          onChange={(e) => setSourceUrl(e.target.value)}
           placeholder="노션 url을 입력해주세요"
           borderColor="gray.300"
           borderRadius="md"

@@ -8,7 +8,7 @@ import DeploymentPanel from "@/components/DeploymentPanel";
 
 export default function MainContent() {
   const [deployMode, setDeployMode] = useState("full");
-  const [notionPageId, setNotionPageId] = useState(null);
+  const [pageId, setPageId] = useState(null);
   const [snapshotHtml, setSnapshotHtml] = useState(null);
   const [selectedBlocksHtml, setSelectedBlocksHtml] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -20,7 +20,7 @@ export default function MainContent() {
       flexDirection="column"
       alignItems="center"
       bg="gray.100"
-      justifyContent={notionPageId ? "" : "center"}
+      justifyContent={pageId ? "" : "center"}
       minH="100vh"
     >
       <Logo isRendered={isRendered} isLoading={isLoading} />
@@ -32,13 +32,13 @@ export default function MainContent() {
         height="100%"
       >
         <ContentInteractionPanel
-          notionPageId={notionPageId}
+          pageId={pageId}
           deployMode={deployMode}
           setDeployMode={setDeployMode}
           snapshotHtml={snapshotHtml}
           selectedBlocksHtml={selectedBlocksHtml}
           setSelectedBlocksHtml={setSelectedBlocksHtml}
-          setNotionPageId={setNotionPageId}
+          setPageId={setPageId}
           setSnapshotHtml={setSnapshotHtml}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
@@ -47,7 +47,7 @@ export default function MainContent() {
         <DeploymentPanel
           isRendered={isRendered}
           deployMode={deployMode}
-          notionPageId={notionPageId}
+          pageId={pageId}
           selectedBlocksHtml={selectedBlocksHtml}
           snapshotHtml={snapshotHtml}
         />

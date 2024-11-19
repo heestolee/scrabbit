@@ -1,14 +1,14 @@
 "use server";
 
-export async function fetchNotionPage(notionUrl) {
-  const pageId = notionUrl.split("/").pop();
+export async function fetchPage(sourceUrl) {
+  const pageId = sourceUrl.split("/").pop();
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   try {
     const response = await fetch(`${baseUrl}/api/puppeteer-preview-snapshot`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ notionUrl }),
+      body: JSON.stringify({ sourceUrl }),
     });
     if (!response.ok) throw new Error("노션 페이지 페칭 실패");
 
