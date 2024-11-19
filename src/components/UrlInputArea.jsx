@@ -22,8 +22,9 @@ export default function UrlInputArea({
       py={4}
       gap={3}
       alignItems="center"
+      w="70%"
     >
-      <FormControl width="50rem" isRequired>
+      <FormControl width="100%" isRequired>
         <Input
           type="text"
           value={notionUrl}
@@ -34,12 +35,13 @@ export default function UrlInputArea({
           borderRadius="md"
           _focus={{ borderColor: "blue.500" }}
           boxShadow="sm"
+          w="100%"
         />
       </FormControl>
       <Button
         type="submit"
         colorScheme="blue"
-        width="10rem"
+        width="20%"
         isLoading={isLoading}
         borderRadius="md"
         _hover={{ bg: "blue.400" }}

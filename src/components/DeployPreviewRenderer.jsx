@@ -23,7 +23,7 @@ export default function DeployPreviewRenderer({
     <Center
       display="flex"
       flexDirection="column"
-      h="40rem"
+      h="80vh"
       w="full"
       alignItems="center"
       justifyContent="center"

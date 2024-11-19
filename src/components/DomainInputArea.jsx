@@ -26,7 +26,7 @@ export default function DomainInputArea({
           display="flex"
           bg={"white"}
           borderRadius={"xl"}
-          height={"2.5rem"}
+          height={"10%"}
           size="l"
           px={3}
         >
@@ -47,7 +47,7 @@ export default function DomainInputArea({
             .notiondrop.site
           </FormControl>
         </Box>
-        <Button type="submit" colorScheme="green" width="10rem">
+        <Button type="submit" colorScheme="green" width="20%">
           배포
         </Button>
       </form>

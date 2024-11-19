@@ -7,7 +7,6 @@ export default function LoadingAnimation() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "45rem",
         width: "100%",
       }}
     >
