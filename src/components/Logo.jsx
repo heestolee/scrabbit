@@ -20,12 +20,12 @@ export default function Logo({ isRendered, isLoading }) {
         alignItems: "center",
       }}
     >
-      <Box>
+      <Box p={10}>
         <Image
-          src="/notiondrop.svg"
-          alt="notiondrop logo"
-          width={800}
-          height={400}
+          src="/scrabbit.svg"
+          alt="scrabbit logo"
+          width={600}
+          height={300}
         />
       </Box>
     </motion.div>

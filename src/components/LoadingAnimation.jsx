@@ -11,7 +11,7 @@ export default function LoadingAnimation() {
       }}
     >
       <motion.img
-        src="/notiondrop.svg"
+        src="/scrabbit.svg"
         alt="Loading"
         initial={{ opacity: 0 }}
         animate={{ opacity: [0, 1, 0] }}

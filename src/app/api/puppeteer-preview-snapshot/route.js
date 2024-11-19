@@ -3,13 +3,13 @@ import takePreviewSnapshot from "@/service/puppeteerPreviewSnapshot";
 
 export async function POST(request) {
   try {
-    const { notionUrl } = await request.json();
+    const { sourceUrl } = await request.json();
 
-    if (!notionUrl) {
-      throw new Error("Notion URL이 제공되지 않았습니다.");
+    if (!sourceUrl) {
+      throw new Error("가져올 URL이 입력되지 않았습니다.");
     }
 
-    const snapshotHtml = await takePreviewSnapshot(notionUrl);
+    const snapshotHtml = await takePreviewSnapshot(sourceUrl);
 
     return NextResponse.json({ snapshotHtml });
   } catch (error) {

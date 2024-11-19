@@ -5,7 +5,7 @@ export async function POST(request) {
   const { pageId, subdomain, deployContent } = await request.json();
 
   try {
-    const projectName = `notion-${subdomain}-${pageId}`;
+    const projectName = `scrabbit-${subdomain}-${pageId}`;
 
     const domainCheckResponse = await fetch(
       `https://api.vercel.com/v9/projects/${projectName}/domains`,

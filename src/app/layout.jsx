@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "NotionDrop",
+  title: "scrabbit",
 };
 
 export default function RootLayout({ children }) {
