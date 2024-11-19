@@ -4,6 +4,9 @@ const nextConfig = {
   output: "standalone",
   experimental: {
     esmExternals: false,
+    serverActions: {
+      bodySizeLimit: "100mb",
+    },
   },
 };
 
