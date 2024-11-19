@@ -121,7 +121,6 @@ App router가 '최적'이라고 판단되었던 대표적인 2가지 이유는 �
 <br>
 
 ![alt text](public/image/ssr-to-notion-url.png)
-(그림으로 변경 예정)
 
 <br>
 
