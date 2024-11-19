@@ -1,18 +1,13 @@
 "use client";
 
-import React, {
-  useEffect,
-  useRef,
-  useCallback,
-  useState,
-  useMemo,
-} from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { Box } from "@chakra-ui/react";
 import { PSEUDO_ELEMENTS_STYLE } from "@/constant/constant";
 
 export default function NotionPageRenderer({
   snapshotHtml,
   deployMode,
+  selectedBlocksHtml,
   setSelectedBlocksHtml,
 }) {
   const pageRef = useRef(null);
@@ -52,6 +47,7 @@ export default function NotionPageRenderer({
       event.preventDefault();
 
       if (deployMode === "partial") {
+        handleSelectBlock(blockId);
         setClickOrder((prevOrder) => prevOrder + 1);
         setSelectedBlocksHtml((prev) =>
           prev.some((block) => block.id === blockId)
@@ -68,17 +64,17 @@ export default function NotionPageRenderer({
         );
       }
     },
-    [deployMode, setSelectedBlocksHtml, clickOrder],
+    [handleSelectBlock, deployMode, setSelectedBlocksHtml, clickOrder],
   );
 
   const handleMouseEnter = (blockId) => {
-    if (!selectedBlocksHtml.some((block) => block.id === blockId)) {
+    if (!selectedBlocks.includes(blockId)) {
       setHoveredBlockId(blockId);
     }
   };
 
   const handleMouseLeave = (blockId) => {
-    if (!selectedBlocksHtml.some((block) => block.id === blockId)) {
+    if (!selectedBlocks.includes(blockId)) {
       setHoveredBlockId(null);
     }
   };
@@ -97,7 +93,7 @@ export default function NotionPageRenderer({
             onMouseEnter={() => handleMouseEnter(block.id)}
             onMouseLeave={() => handleMouseLeave(block.id)}
             style={{
-              outline: selectedBlocksHtml.includes(block.id)
+              outline: selectedBlocks.includes(block.id)
                 ? "2px solid #62aaff"
                 : hoveredBlockId === block.id
                   ? "1px dashed lightgray"

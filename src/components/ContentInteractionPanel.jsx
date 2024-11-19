@@ -39,7 +39,13 @@ export default function ContentInteractionPanel({
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" w="65%" h="100%">
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      w="65%"
+      h="100%"
+    >
       <Box
         display="flex"
         flexDirection={notionPageId ? "row" : "column"}
