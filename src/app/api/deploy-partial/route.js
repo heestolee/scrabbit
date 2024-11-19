@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { waitForSSLCertification } from "@/lib/waitForSSLCertification";
+import { createStyledLayout } from "@/lib/createStyledLayout";
 
 export async function POST(request) {
   try {
@@ -35,7 +36,8 @@ export async function POST(request) {
       }
     }
 
-    const combinedHtml = deployContent.map((block) => block.html).join("\n");
+    const combinedHtml = deployContent.map((block) => block.html).join("<br/>");
+    const styledHtml = createStyledLayout(combinedHtml);
 
     const vercelResponse = await fetch(
       "https://api.vercel.com/v13/deployments",
@@ -50,7 +52,7 @@ export async function POST(request) {
           files: [
             {
               file: "index.html",
-              data: combinedHtml,
+              data: styledHtml,
             },
           ],
           target: "production",
