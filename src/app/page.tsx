@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import ChakraLayout from "@/components/ChakraLayout";
 import MainContent from "@/components/MainContent";
 
-export default function Home() {
+export default function Home(): React.JSX.Element {
   return (
     <ChakraLayout>
       <Suspense fallback={<p>Loading...</p>}>

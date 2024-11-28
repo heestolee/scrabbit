@@ -1,12 +1,18 @@
 import React from "react";
 import { Box, Input, Button, FormControl } from "@chakra-ui/react";
 
+interface DomainInputAreaProps {
+  subdomain: string;
+  setSubdomain: React.Dispatch<React.SetStateAction<string>>;
+  handleDeploy: () => void;
+}
+
 export default function DomainInputArea({
   subdomain,
   setSubdomain,
   handleDeploy,
-}) {
-  const handleSubmit = (event) => {
+}: DomainInputAreaProps) {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     handleDeploy();
   };
@@ -27,7 +33,6 @@ export default function DomainInputArea({
           bg={"white"}
           borderRadius={"xl"}
           height={"10%"}
-          size="l"
           px={3}
         >
           <FormControl display="flex" alignItems="baseline" px="2">

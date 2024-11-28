@@ -1,3 +1,5 @@
+import Image from "next/image";
+import { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -9,14 +11,23 @@ import {
   Button,
   Box,
 } from "@chakra-ui/react";
-import Image from "next/image";
-import { useState } from "react";
 
-export default function DeployModal({ isModalOpen, modalMessage, closeModal }) {
+interface DeployModalProps {
+  isModalOpen: boolean;
+  modalMessage: string;
+  closeModal: () => void;
+}
+
+export default function DeployModal({
+  isModalOpen,
+  modalMessage,
+  closeModal,
+}: DeployModalProps) {
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = async () => {
     const textToCopy = modalMessage.split(": ")[1];
+
     try {
       await navigator.clipboard.writeText(textToCopy);
       setIsCopied(true);

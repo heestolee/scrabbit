@@ -2,10 +2,15 @@
 
 import { Box, Center } from "@chakra-ui/react";
 
+interface DeployPreviewRendererProps {
+  deployMode: "full" | "partial";
+  selectedBlocksHtml: { id: string; html: string }[];
+}
+
 export default function DeployPreviewRenderer({
   deployMode,
   selectedBlocksHtml,
-}) {
+}: DeployPreviewRendererProps) {
   return (
     <Center
       display="flex"
@@ -41,9 +46,9 @@ export default function DeployPreviewRenderer({
         style={{ zoom: 0.6 }}
       >
         {deployMode === "partial" && selectedBlocksHtml.length ? (
-          selectedBlocksHtml.map((block, order) => (
+          selectedBlocksHtml.map((block, id) => (
             <Box
-              key={order}
+              key={id}
               dangerouslySetInnerHTML={{ __html: block.html }}
               h="max-content"
             />

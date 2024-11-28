@@ -2,7 +2,12 @@ import Image from "next/image";
 import { Box } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
-export default function Logo({ isRendered, isLoading }) {
+interface LogoProps {
+  isRendered: boolean;
+  isLoading: boolean;
+}
+
+export default function Logo({ isRendered, isLoading }: LogoProps) {
   return (
     <motion.div
       initial={{ zoom: 1, x: 0 }}

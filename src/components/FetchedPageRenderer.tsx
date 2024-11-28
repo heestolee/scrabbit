@@ -3,25 +3,31 @@
 import { useEffect, useRef, useCallback } from "react";
 import { Box } from "@chakra-ui/react";
 
+interface FetchedPageRendererProps {
+  snapshotHtml: string | null;
+  deployMode: "full" | "partial";
+  selectedBlocksHtml: { id: string; html: string }[];
+  setSelectedBlocksHtml: React.Dispatch<
+    React.SetStateAction<{ id: string; html: string }[]>
+  >;
+}
+
 export default function FetchedPageRenderer({
   snapshotHtml,
   deployMode,
   selectedBlocksHtml,
   setSelectedBlocksHtml,
-}) {
-  const pageRef = useRef(null);
+}: FetchedPageRendererProps) {
+  const pageRef = useRef<HTMLDivElement>(null);
 
   const handleBlockClick = useCallback(
-    (event) => {
+    (event: React.MouseEvent<HTMLElement>) => {
       event.preventDefault();
       event.stopPropagation();
 
-      const blockElement = event.currentTarget;
+      const blockElement = event.currentTarget as HTMLElement;
       const blockId =
-        blockElement.getAttribute("data-block-id") || blockElement.textContent;
-
-      console.log("선택한 블록아이디: ", blockId);
-      console.log("선택한 블록 : ", blockElement);
+        blockElement.getAttribute("data-block-id") || blockElement.textContent ||"";
 
       if (deployMode === "partial") {
         blockElement.style.outline = "none";
@@ -46,20 +52,23 @@ export default function FetchedPageRenderer({
   );
 
   useEffect(() => {
-    if (deployMode !== "partial") return;
+    if (deployMode !== "partial" || !pageRef.current) return;
 
-    const blockElements = pageRef.current.querySelectorAll(
+    const blockElements = pageRef.current.querySelectorAll<HTMLElement>(
       "*:not(script):not(style):not(link)",
     );
 
+    const handleEventListener: EventListener = (event) => {
+      handleBlockClick(event as unknown as React.MouseEvent<HTMLElement>);
+    };
+
     blockElements.forEach((block) => {
-      const blockId = block.getAttribute("data-block-id") || block.textContent;
+      const blockId =
+        block.getAttribute("data-block-id") || block.textContent || "";
 
-      block.addEventListener("click", handleBlockClick);
+      block.addEventListener("click", handleEventListener);
 
-      const isSelected = selectedBlocksHtml.some(
-        (block) => block.id === blockId,
-      );
+      const isSelected = selectedBlocksHtml.some((b) => b.id === blockId);
       block.style.outline = isSelected ? "2px solid #62aaff" : "none";
 
       block.addEventListener("mouseenter", () => {
@@ -78,7 +87,7 @@ export default function FetchedPageRenderer({
 
     return () => {
       blockElements.forEach((block) => {
-        block.removeEventListener("click", handleBlockClick);
+        block.removeEventListener("click", handleEventListener);
       });
     };
   }, [selectedBlocksHtml, handleBlockClick, deployMode]);

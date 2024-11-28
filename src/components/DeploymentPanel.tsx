@@ -8,17 +8,25 @@ import DeployPreviewRenderer from "@/components/DeployPreviewRenderer";
 import DeployModal from "@/components/DeployModal";
 import { deployPage } from "@/actions/deployPage";
 
+interface DeploymentPanelProps {
+  isRendered: boolean;
+  deployMode: "full" | "partial";
+  pageId: string | null;
+  selectedBlocksHtml: { id: string; html: string }[];
+  snapshotHtml: string | null;
+}
+
 export default function DeploymentPanel({
   isRendered,
   deployMode,
   pageId,
   selectedBlocksHtml,
   snapshotHtml,
-}) {
-  const [subdomain, setSubdomain] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const renderSectionRef = useRef(null);
+}: DeploymentPanelProps) {
+  const [subdomain, setSubdomain] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
+  const renderSectionRef = useRef<HTMLDivElement>(null);
 
   const handleDeploy = async () => {
     const { url, error } = await deployPage({
@@ -60,7 +68,6 @@ export default function DeploymentPanel({
         <DeployPreviewRenderer
           deployMode={deployMode}
           selectedBlocksHtml={selectedBlocksHtml}
-          width="90%"
         />
         <DeployModal
           isModalOpen={isModalOpen}

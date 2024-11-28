@@ -1,7 +1,14 @@
-import React from "react";
 import { Box, FormControl, FormLabel, Switch } from "@chakra-ui/react";
 
-export default function DeployModeSelector({ deployMode, setDeployMode }) {
+interface DeployModeSelectorProps {
+  deployMode: "full" | "partial";
+  setDeployMode: (mode: "full" | "partial") => void;
+}
+
+export default function DeployModeSelector({
+  deployMode,
+  setDeployMode,
+}: DeployModeSelectorProps) {
   const handleSwitchChange = () => {
     setDeployMode(deployMode === "full" ? "partial" : "full");
   };

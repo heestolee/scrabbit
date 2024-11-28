@@ -7,12 +7,14 @@ import ContentInteractionPanel from "@/components/ContentInteractionPanel";
 import DeploymentPanel from "@/components/DeploymentPanel";
 
 export default function MainContent() {
-  const [deployMode, setDeployMode] = useState("full");
-  const [pageId, setPageId] = useState(null);
-  const [snapshotHtml, setSnapshotHtml] = useState(null);
-  const [selectedBlocksHtml, setSelectedBlocksHtml] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isRendered, setIsRendered] = useState(false);
+  const [deployMode, setDeployMode] = useState<"full" | "partial">("full");
+  const [pageId, setPageId] = useState<string | null>(null);
+  const [snapshotHtml, setSnapshotHtml] = useState<string | null>(null);
+  const [selectedBlocksHtml, setSelectedBlocksHtml] = useState<
+    { id: string; html: string }[]
+  >([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRendered, setIsRendered] = useState<boolean>(false);
 
   return (
     <Box
@@ -20,7 +22,7 @@ export default function MainContent() {
       flexDirection="column"
       alignItems="center"
       bg="gray.100"
-      justifyContent={pageId ? "" : "center"}
+      justifyContent={pageId ? "flex-start" : "center"}
       minH="100vh"
     >
       <Logo isRendered={isRendered} isLoading={isLoading} />

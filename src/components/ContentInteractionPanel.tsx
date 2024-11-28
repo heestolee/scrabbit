@@ -6,6 +6,22 @@ import LoadingAnimation from "@/components/LoadingAnimation";
 import FetchedPageRenderer from "@/components/FetchedPageRenderer";
 import { fetchPage } from "@/actions/fetchPage";
 
+interface ContentInteractionPanelProps {
+  pageId: string | null;
+  deployMode: "full" | "partial";
+  setDeployMode: (mode: "full" | "partial") => void;
+  snapshotHtml: string | null;
+  selectedBlocksHtml: { id: string; html: string }[];
+  setSelectedBlocksHtml: React.Dispatch<
+    React.SetStateAction<{ id: string; html: string }[]>
+  >;
+  setPageId: (id: string | null) => void;
+  setSnapshotHtml: (html: string | null) => void;
+  isLoading: boolean;
+  setIsLoading: (loading: boolean) => void;
+  setIsRendered: (rendered: boolean) => void;
+}
+
 export default function ContentInteractionPanel({
   pageId,
   deployMode,
@@ -18,8 +34,8 @@ export default function ContentInteractionPanel({
   isLoading,
   setIsLoading,
   setIsRendered,
-}) {
-  const [sourceUrl, setSourceUrl] = useState("");
+}: ContentInteractionPanelProps) {
+  const [sourceUrl, setSourceUrl] = useState<string>("");
 
   const handleFetch = async () => {
     setIsLoading(true);
@@ -58,7 +74,6 @@ export default function ContentInteractionPanel({
           setDeployMode={setDeployMode}
         />
         <UrlInputArea
-          deployMode={deployMode}
           sourceUrl={sourceUrl}
           setSourceUrl={setSourceUrl}
           handleFetch={handleFetch}

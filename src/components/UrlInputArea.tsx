@@ -1,13 +1,19 @@
-import React from "react";
 import { Box, Input, Button, FormControl } from "@chakra-ui/react";
+
+export interface UrlInputAreaProps {
+  sourceUrl: string;
+  setSourceUrl: React.Dispatch<React.SetStateAction<string>>;
+  handleFetch: () => Promise<void>;
+  isLoading: boolean;
+}
 
 export default function UrlInputArea({
   sourceUrl,
   setSourceUrl,
   handleFetch,
   isLoading,
-}) {
-  const handleSubmit = (event) => {
+}: UrlInputAreaProps) {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     handleFetch();
   };
@@ -29,7 +35,9 @@ export default function UrlInputArea({
           type="text"
           value={sourceUrl}
           bg={"white"}
-          onChange={(e) => setSourceUrl(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSourceUrl(e.target.value)
+          }
           placeholder="노션 url을 입력해주세요"
           borderColor="gray.300"
           borderRadius="md"
