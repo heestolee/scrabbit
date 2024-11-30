@@ -1,7 +1,7 @@
 "use client";
-
-import { useEffect, useRef, useCallback } from "react";
-import { Box } from "@chakra-ui/react";
+import { useEffect, useRef, useCallback, useState } from "react";
+import { Box, Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton } from "@chakra-ui/react";
+import { handleError } from "@/utils/errorHandler";
 
 interface FetchedPageRendererProps {
   snapshotHtml: string | null;
@@ -19,33 +19,38 @@ export default function FetchedPageRenderer({
   setSelectedBlocksHtml,
 }: FetchedPageRendererProps) {
   const pageRef = useRef<HTMLDivElement>(null);
+  const [error, setError] = useState<{ title: string; description: string } | null>(null);
 
   const handleBlockClick = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
-      event.preventDefault();
-      event.stopPropagation();
+      try {
+        event.preventDefault();
+        event.stopPropagation();
 
-      const blockElement = event.currentTarget as HTMLElement;
-      const blockId =
-        blockElement.getAttribute("data-block-id") || blockElement.textContent ||"";
+        const blockElement = event.currentTarget as HTMLElement;
+        const blockId =
+          blockElement.getAttribute("data-block-id") || blockElement.textContent || "";
 
-      if (deployMode === "partial") {
-        blockElement.style.outline = "none";
-        blockElement.style.cursor = "default";
+        if (deployMode === "partial") {
+          blockElement.style.outline = "none";
+          blockElement.style.cursor = "default";
 
-        setSelectedBlocksHtml((prev) => {
-          const isAlreadySelected = prev.some((block) => block.id === blockId);
+          setSelectedBlocksHtml((prev) => {
+            const isAlreadySelected = prev.some((block) => block.id === blockId);
 
-          return isAlreadySelected
-            ? prev.filter((block) => block.id !== blockId)
-            : [
-                ...prev,
-                {
-                  id: blockId,
-                  html: blockElement.outerHTML,
-                },
-              ];
-        });
+            return isAlreadySelected
+              ? prev.filter((block) => block.id !== blockId)
+              : [
+                  ...prev,
+                  {
+                    id: blockId,
+                    html: blockElement.outerHTML,
+                  },
+                ];
+          });
+        }
+      } catch (error) {
+        setError(handleError(error));
       }
     },
     [deployMode, setSelectedBlocksHtml],
@@ -96,6 +101,16 @@ export default function FetchedPageRenderer({
 
   return (
     <Box h="100%" textAlign="left" ref={pageRef}>
+      {error && (
+        <Alert status="error" mb={4}>
+          <AlertIcon />
+          <Box>
+            <AlertTitle>{error.title}</AlertTitle>
+            <AlertDescription>{error.description}</AlertDescription>
+          </Box>
+          <CloseButton onClick={() => setError(null)} />
+        </Alert>
+      )}
       <Box dangerouslySetInnerHTML={{ __html: snapshotHtml }} />
     </Box>
   );

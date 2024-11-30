@@ -11,6 +11,7 @@ import {
   Button,
   Box,
 } from "@chakra-ui/react";
+import { handleError } from "@/utils/errorHandler";
 
 interface DeployModalProps {
   isModalOpen: boolean;
@@ -26,13 +27,12 @@ export default function DeployModal({
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = async () => {
-    const textToCopy = modalMessage.split(": ")[1];
-
     try {
+      const textToCopy = modalMessage.split(": ")[1];
       await navigator.clipboard.writeText(textToCopy);
       setIsCopied(true);
-    } catch (err) {
-      console.error("복사 중 오류 발생:", err);
+    } catch (error) {
+      console.error(handleError(error));
     }
   };
 

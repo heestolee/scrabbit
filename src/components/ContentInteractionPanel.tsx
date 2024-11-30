@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton } from "@chakra-ui/react";
 import DeployModeSelector from "@/components/DeployModeSelector";
 import UrlInputArea from "@/components/UrlInputArea";
 import LoadingAnimation from "@/components/LoadingAnimation";
 import FetchedPageRenderer from "@/components/FetchedPageRenderer";
 import { fetchPage } from "@/actions/fetchPage";
+import { handleError } from "@/utils/errorHandler";
 
 interface ContentInteractionPanelProps {
   pageId: string | null;
@@ -36,22 +37,22 @@ export default function ContentInteractionPanel({
   setIsRendered,
 }: ContentInteractionPanelProps) {
   const [sourceUrl, setSourceUrl] = useState<string>("");
+  const [error, setError] = useState<{ title: string; description: string } | null>(null);
 
   const handleFetch = async () => {
     setIsLoading(true);
     setSnapshotHtml(null);
 
-    const { pageId, snapshotHtml, error } = await fetchPage(sourceUrl);
-    if (error) {
-      console.error(error);
+    try {
+      const { pageId, snapshotHtml } = await fetchPage(sourceUrl);
+      setPageId(pageId);
+      setSnapshotHtml(snapshotHtml);
+      setIsRendered(true);
+    } catch (error) {
+      setError(handleError(error));
+    } finally {
       setIsLoading(false);
-      return;
     }
-
-    setPageId(pageId);
-    setSnapshotHtml(snapshotHtml);
-    setIsLoading(false);
-    setIsRendered(true);
   };
 
   return (
@@ -62,6 +63,16 @@ export default function ContentInteractionPanel({
       w="65%"
       h="100%"
     >
+      {error && (
+        <Alert status="error" mb={4}>
+          <AlertIcon />
+          <Box>
+            <AlertTitle>{error.title}</AlertTitle>
+            <AlertDescription>{error.description}</AlertDescription>
+          </Box>
+          <CloseButton onClick={() => setError(null)} />
+        </Alert>
+      )}
       <Box
         display="flex"
         flexDirection={pageId ? "row" : "column"}

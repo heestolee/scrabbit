@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import DomainInputArea from "@/components/DomainInputArea";
 import DeployPreviewRenderer from "@/components/DeployPreviewRenderer";
 import DeployModal from "@/components/DeployModal";
 import { deployPage } from "@/actions/deployPage";
+import { handleError } from "@/utils/errorHandler";
 
 interface DeploymentPanelProps {
   isRendered: boolean;
@@ -26,23 +27,25 @@ export default function DeploymentPanel({
   const [subdomain, setSubdomain] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
+  const [error, setError] = useState<{ title: string; description: string } | null>(null);
   const renderSectionRef = useRef<HTMLDivElement>(null);
 
   const handleDeploy = async () => {
-    const { url, error } = await deployPage({
-      pageId,
-      subdomain,
-      deployMode,
-      selectedBlocksHtml,
-      snapshotHtml,
-    });
+    try {
+      const { url } = await deployPage({
+        pageId,
+        subdomain,
+        deployMode,
+        selectedBlocksHtml,
+        snapshotHtml,
+      });
 
-    if (error) {
-      setModalMessage(error);
-    } else {
       setModalMessage(`배포된 사이트: ${url}`);
+    } catch (error) {
+      setError(handleError(error));
+    } finally {
+      setIsModalOpen(true);
     }
-    setIsModalOpen(true);
   };
 
   const closeModal = () => {
@@ -50,31 +53,43 @@ export default function DeploymentPanel({
   };
 
   return (
-    <motion.div
-      initial={{ width: "0%" }}
-      animate={isRendered ? { width: "30%" } : {}}
-      transition={{ duration: 1 }}
-      style={{
-        transformOrigin: "left",
-        display: isRendered ? "block" : "none",
-      }}
-    >
-      <Box ref={renderSectionRef} display="flex" flexDirection="column">
-        <DomainInputArea
-          subdomain={subdomain}
-          setSubdomain={setSubdomain}
-          handleDeploy={handleDeploy}
-        />
-        <DeployPreviewRenderer
-          deployMode={deployMode}
-          selectedBlocksHtml={selectedBlocksHtml}
-        />
-        <DeployModal
-          isModalOpen={isModalOpen}
-          modalMessage={modalMessage}
-          closeModal={closeModal}
-        />
-      </Box>
-    </motion.div>
+    <Box>
+      {error && (
+        <Alert status="error" mb={4}>
+          <AlertIcon />
+          <Box>
+            <AlertTitle>{error.title}</AlertTitle>
+            <AlertDescription>{error.description}</AlertDescription>
+          </Box>
+          <CloseButton onClick={() => setError(null)} />
+        </Alert>
+      )}
+      <motion.div
+        initial={{ width: "0%" }}
+        animate={isRendered ? { width: "30%" } : {}}
+        transition={{ duration: 1 }}
+        style={{
+          transformOrigin: "left",
+          display: isRendered ? "block" : "none",
+        }}
+      >
+        <Box ref={renderSectionRef} display="flex" flexDirection="column">
+          <DomainInputArea
+            subdomain={subdomain}
+            setSubdomain={setSubdomain}
+            handleDeploy={handleDeploy}
+          />
+          <DeployPreviewRenderer
+            deployMode={deployMode}
+            selectedBlocksHtml={selectedBlocksHtml}
+          />
+          <DeployModal
+            isModalOpen={isModalOpen}
+            modalMessage={modalMessage}
+            closeModal={closeModal}
+          />
+        </Box>
+      </motion.div>
+    </Box>
   );
 }

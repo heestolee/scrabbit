@@ -1,4 +1,5 @@
 import { Box, Input, Button, FormControl } from "@chakra-ui/react";
+import { handleError } from "@/utils/errorHandler";
 
 export interface UrlInputAreaProps {
   sourceUrl: string;
@@ -13,9 +14,13 @@ export default function UrlInputArea({
   handleFetch,
   isLoading,
 }: UrlInputAreaProps) {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleFetch();
+    try {
+      await handleFetch();
+    } catch (error) {
+      console.error(handleError(error));
+    }
   };
 
   return (
