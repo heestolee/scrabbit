@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Box, Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import DomainInputArea from "@/components/DomainInputArea";
 import DeployPreviewRenderer from "@/components/DeployPreviewRenderer";
 import DeployModal from "@/components/DeployModal";
 import { deployPage } from "@/actions/deployPage";
 import { handleError } from "@/utils/errorHandler";
+import ErrorAlert from "@/components/ErrorAlert";
 
 interface DeploymentPanelProps {
   isRendered: boolean;
@@ -55,14 +56,11 @@ export default function DeploymentPanel({
   return (
     <Box>
       {error && (
-        <Alert status="error" mb={4}>
-          <AlertIcon />
-          <Box>
-            <AlertTitle>{error.title}</AlertTitle>
-            <AlertDescription>{error.description}</AlertDescription>
-          </Box>
-          <CloseButton onClick={() => setError(null)} />
-        </Alert>
+        <ErrorAlert
+          title={error.title}
+          description={error.description}
+          onClose={() => setError(null)}
+        />
       )}
       <motion.div
         initial={{ width: "0%" }}

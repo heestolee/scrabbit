@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useRef, useCallback, useState } from "react";
-import { Box, Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton } from "@chakra-ui/react";
+import { Box,} from "@chakra-ui/react";
 import { handleError } from "@/utils/errorHandler";
+import ErrorAlert from "@/components/ErrorAlert";
 
 interface FetchedPageRendererProps {
   snapshotHtml: string | null;
@@ -102,14 +103,11 @@ export default function FetchedPageRenderer({
   return (
     <Box h="100%" textAlign="left" ref={pageRef}>
       {error && (
-        <Alert status="error" mb={4}>
-          <AlertIcon />
-          <Box>
-            <AlertTitle>{error.title}</AlertTitle>
-            <AlertDescription>{error.description}</AlertDescription>
-          </Box>
-          <CloseButton onClick={() => setError(null)} />
-        </Alert>
+        <ErrorAlert
+          title={error.title}
+          description={error.description}
+          onClose={() => setError(null)}
+        />
       )}
       <Box dangerouslySetInnerHTML={{ __html: snapshotHtml }} />
     </Box>

@@ -1,7 +1,8 @@
 "use client";
 
 import { Component, ErrorInfo, ReactNode } from "react";
-import { Alert, AlertIcon, AlertTitle, AlertDescription, Box } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import ErrorAlert from "@/components/ErrorAlert";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -36,11 +37,11 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     if (this.state.hasError) {
       return (
         <Box maxW="md" mx="auto" mt="10">
-          <Alert status="error" variant="subtle" flexDirection="column" textAlign="center">
-            <AlertIcon />
-            <AlertTitle>{this.state.error?.title || "알 수 없는 오류"}</AlertTitle>
-            <AlertDescription>{this.state.error?.description}</AlertDescription>
-          </Alert>
+          <ErrorAlert
+            title={this.state.error?.title || "알 수 없는 오류"}
+            description={this.state.error?.description || ""}
+            onClose={() => this.setState({ hasError: false, error: null })}
+          />
         </Box>
       );
     }

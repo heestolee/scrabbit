@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Box, Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import DeployModeSelector from "@/components/DeployModeSelector";
 import UrlInputArea from "@/components/UrlInputArea";
 import LoadingAnimation from "@/components/LoadingAnimation";
 import FetchedPageRenderer from "@/components/FetchedPageRenderer";
 import { fetchPage } from "@/actions/fetchPage";
 import { handleError } from "@/utils/errorHandler";
+import ErrorAlert from "@/components/ErrorAlert";
 
 interface ContentInteractionPanelProps {
   pageId: string | null;
@@ -64,14 +65,11 @@ export default function ContentInteractionPanel({
       h="100%"
     >
       {error && (
-        <Alert status="error" mb={4}>
-          <AlertIcon />
-          <Box>
-            <AlertTitle>{error.title}</AlertTitle>
-            <AlertDescription>{error.description}</AlertDescription>
-          </Box>
-          <CloseButton onClick={() => setError(null)} />
-        </Alert>
+        <ErrorAlert
+          title={error.title}
+          description={error.description}
+          onClose={() => setError(null)}
+        />
       )}
       <Box
         display="flex"
