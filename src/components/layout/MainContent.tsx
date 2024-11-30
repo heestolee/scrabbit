@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { Box } from "@chakra-ui/react";
-import Logo from "@/components/Logo";
-import ContentInteractionPanel from "@/components/ContentInteractionPanel";
-import DeploymentPanel from "@/components/DeploymentPanel";
-import ErrorBoundary from "@/components/ErrorBoundary";
+import Logo from "@/components/shared/Logo";
+import ContentInteractionPanel from "@/components/panel/ContentInteractionPanel";
+import DeploymentPanel from "@/components/panel/DeploymentPanel";
+import ErrorBoundary from "@/components/error-boundary/ErrorBoundary";
 
 export default function MainContent() {
   const [deployMode, setDeployMode] = useState<"full" | "partial">("full");

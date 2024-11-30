@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Box } from "@chakra-ui/react";
-import DeployModeSelector from "@/components/DeployModeSelector";
-import UrlInputArea from "@/components/UrlInputArea";
-import LoadingAnimation from "@/components/LoadingAnimation";
-import FetchedPageRenderer from "@/components/FetchedPageRenderer";
+import DeployModeSelector from "@/components/form/DeployModeSelector";
+import UrlInputArea from "@/components/form/UrlInputArea";
+import LoadingAnimation from "@/components/shared/LoadingAnimation";
+import FetchedPageRenderer from "@/components/renderer/FetchedPageRenderer";
+import ErrorAlert from "@/components/error-boundary/ErrorAlert";
 import { fetchPage } from "@/actions/fetchPage";
 import { handleError } from "@/utils/errorHandler";
-import ErrorAlert from "@/components/ErrorAlert";
 
 interface ContentInteractionPanelProps {
   pageId: string | null;

@@ -1,8 +1,9 @@
 "use client";
+
 import { useEffect, useRef, useCallback, useState } from "react";
 import { Box,} from "@chakra-ui/react";
 import { handleError } from "@/utils/errorHandler";
-import ErrorAlert from "@/components/ErrorAlert";
+import ErrorAlert from "@/components/error-boundary/ErrorAlert";
 
 interface FetchedPageRendererProps {
   snapshotHtml: string | null;

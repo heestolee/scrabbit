@@ -2,7 +2,7 @@
 
 import { Component, ErrorInfo, ReactNode } from "react";
 import { Box } from "@chakra-ui/react";
-import ErrorAlert from "@/components/ErrorAlert";
+import ErrorAlert from "@/components/error-boundary/ErrorAlert";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
