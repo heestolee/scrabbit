@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useCallback, useState } from "react";
-import { Box,} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import DOMPurify from "isomorphic-dompurify";
 import { handleError } from "@/utils/errorHandler";
 import ErrorAlert from "@/components/error-boundary/ErrorAlert";
 
@@ -46,7 +47,7 @@ export default function FetchedPageRenderer({
                   ...prev,
                   {
                     id: blockId,
-                    html: blockElement.outerHTML,
+                    html: DOMPurify.sanitize(blockElement.outerHTML)
                   },
                 ];
           });
@@ -110,7 +111,7 @@ export default function FetchedPageRenderer({
           onClose={() => setError(null)}
         />
       )}
-      <Box dangerouslySetInnerHTML={{ __html: snapshotHtml }} />
+      <Box dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(snapshotHtml) }} />
     </Box>
   );
 }

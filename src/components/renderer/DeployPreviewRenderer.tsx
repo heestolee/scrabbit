@@ -1,6 +1,7 @@
 "use client";
 
 import { Box, Center } from "@chakra-ui/react";
+import DOMPurify from "isomorphic-dompurify";
 
 interface DeployPreviewRendererProps {
   deployMode: "full" | "partial";
@@ -49,7 +50,9 @@ export default function DeployPreviewRenderer({
           selectedBlocksHtml.map((block, id) => (
             <Box
               key={id}
-              dangerouslySetInnerHTML={{ __html: block.html }}
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(block.html),
+              }}
               h="max-content"
             />
           ))
