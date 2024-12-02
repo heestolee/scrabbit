@@ -1,12 +1,25 @@
 "use server";
 
+export interface DeployPageInput {
+  pageId: string | null;
+  subdomain: string;
+  deployMode: "full" | "partial";
+  selectedBlocksHtml: { id: string; html: string }[];
+  snapshotHtml: string | null;
+}
+
+export interface DeployPageResult {
+  url?: string;
+  error?: string;
+}
+
 export async function deployPage({
   pageId,
   subdomain,
   deployMode,
   selectedBlocksHtml,
   snapshotHtml,
-}) {
+}: DeployPageInput): Promise<DeployPageResult> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   const deploySetting =
     deployMode === "partial"
@@ -28,7 +41,8 @@ export async function deployPage({
       }),
     });
 
-    const data = await response.json();
+    const data = (await response.json()) as { url?: string; error?: string };
+
     if (response.ok) {
       return { url: data.url };
     } else {
