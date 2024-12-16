@@ -1,7 +1,5 @@
 "use server";
 
-import DOMPurify from "isomorphic-dompurify";
-
 export interface FetchPageResult {
   pageId: string;
   snapshotHtml: string | null;
@@ -21,7 +19,7 @@ export async function fetchPage(sourceUrl: string): Promise<FetchPageResult> {
     if (!response.ok) throw new Error("페이지 페칭 실패");
 
     const data = (await response.json()) as { snapshotHtml: string | null };
-    const sanitizedHtml = DOMPurify.sanitize(data.snapshotHtml || "");
+    const sanitizedHtml = data.snapshotHtml || "";
 
     return { pageId, snapshotHtml: sanitizedHtml || null };
   } catch (error) {
