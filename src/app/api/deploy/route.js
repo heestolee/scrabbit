@@ -21,7 +21,7 @@ export async function POST(request) {
       if (
         domainData.domains &&
         domainData.domains.some(
-          (domain) => domain.name === `${subdomain}.notiondrop.site`,
+          (domain) => domain.name === `${subdomain}.scrabbit.site`,
         )
       ) {
         return NextResponse.json(
@@ -78,7 +78,7 @@ export async function POST(request) {
           Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: `${subdomain}.notiondrop.site` }),
+        body: JSON.stringify({ name: `${subdomain}.scrabbit.site` }),
       },
     );
 
@@ -90,7 +90,7 @@ export async function POST(request) {
 
     waitForSSLCertification(subdomain);
 
-    return NextResponse.json({ url: `https://${subdomain}.notiondrop.site` });
+    return NextResponse.json({ url: `https://${subdomain}.scrabbit.site` });
   } catch (error) {
     console.error("Deploy error:", error);
     return NextResponse.json({ error: "Deploy failed" }, { status: 500 });

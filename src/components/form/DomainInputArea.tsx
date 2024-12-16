@@ -49,7 +49,7 @@ export default function DomainInputArea({
               mr={2}
               pl={2}
             />
-            .notiondrop.site
+            .scrabbit.site
           </FormControl>
         </Box>
         <Button type="submit" colorScheme="green" width="20%">

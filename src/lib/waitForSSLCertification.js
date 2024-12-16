@@ -4,7 +4,7 @@ export async function waitForSSLCertification(subdomain) {
   let retries = 0;
 
   while (retries < maxRetries) {
-    const response = await fetch(`https://${subdomain}.notiondrop.site`).catch(
+    const response = await fetch(`https://${subdomain}.scrabbit.site`).catch(
       () => null,
     );
 
