@@ -64,7 +64,7 @@ export default function DeploymentPanel({
       )}
       <motion.div
         initial={{ width: "0%" }}
-        animate={isRendered ? { width: "30%" } : {}}
+        animate={isRendered ? { width: "100%" } : {}}
         transition={{ duration: 1 }}
         style={{
           transformOrigin: "left",
