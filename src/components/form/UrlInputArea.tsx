@@ -43,7 +43,7 @@ export default function UrlInputArea({
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setSourceUrl(e.target.value)
           }
-          placeholder="노션 url을 입력해주세요"
+          placeholder="url을 입력해주세요"
           borderColor="gray.300"
           borderRadius="md"
           _focus={{ borderColor: "blue.500" }}
