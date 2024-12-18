@@ -1,7 +1,7 @@
 "use client";
 
+import React from "react";
 import { Box, Center } from "@chakra-ui/react";
-import DOMPurify from "isomorphic-dompurify";
 
 interface DeployPreviewRendererProps {
   deployMode: "full" | "partial";

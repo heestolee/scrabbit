@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback, useState } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import DOMPurify from "isomorphic-dompurify";
 import { handleError } from "@/utils/errorHandler";
@@ -22,7 +22,10 @@ export default function FetchedPageRenderer({
   setSelectedBlocksHtml,
 }: FetchedPageRendererProps) {
   const pageRef = useRef<HTMLDivElement>(null);
-  const [error, setError] = useState<{ title: string; description: string } | null>(null);
+  const [error, setError] = useState<{
+    title: string;
+    description: string;
+  } | null>(null);
 
   const handleBlockClick = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
@@ -32,14 +35,18 @@ export default function FetchedPageRenderer({
 
         const blockElement = event.currentTarget as HTMLElement;
         const blockId =
-          blockElement.getAttribute("data-block-id") || blockElement.textContent || "";
+          blockElement.getAttribute("data-block-id") ||
+          blockElement.textContent ||
+          "";
 
         if (deployMode === "partial") {
           blockElement.style.outline = "none";
           blockElement.style.cursor = "default";
 
           setSelectedBlocksHtml((prev) => {
-            const isAlreadySelected = prev.some((block) => block.id === blockId);
+            const isAlreadySelected = prev.some(
+              (block) => block.id === blockId,
+            );
 
             return isAlreadySelected
               ? prev.filter((block) => block.id !== blockId)
@@ -47,7 +54,15 @@ export default function FetchedPageRenderer({
                   ...prev,
                   {
                     id: blockId,
-                    html: DOMPurify.sanitize(blockElement.outerHTML, { ADD_TAGS: ["iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] }),
+                    html: DOMPurify.sanitize(blockElement.outerHTML, {
+                      ADD_TAGS: ["iframe"],
+                      ADD_ATTR: [
+                        "allow",
+                        "allowfullscreen",
+                        "frameborder",
+                        "scrolling",
+                      ],
+                    }),
                   },
                 ];
           });
@@ -66,7 +81,7 @@ export default function FetchedPageRenderer({
       "*:not(script):not(style):not(link)",
     );
 
-    const handleEventListener: EventListener = (event) => {
+    const handleEventListener = (event: Event) => {
       handleBlockClick(event as unknown as React.MouseEvent<HTMLElement>);
     };
 
@@ -111,7 +126,7 @@ export default function FetchedPageRenderer({
           onClose={() => setError(null)}
         />
       )}
-      <Box dangerouslySetInnerHTML={{ __html: snapshotHtml, }} />
+      <Box dangerouslySetInnerHTML={{ __html: snapshotHtml }} />
     </Box>
   );
 }

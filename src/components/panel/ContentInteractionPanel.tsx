@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import DeployModeSelector from "@/components/form/DeployModeSelector";
 import UrlInputArea from "@/components/form/UrlInputArea";
@@ -38,7 +38,10 @@ export default function ContentInteractionPanel({
   setIsRendered,
 }: ContentInteractionPanelProps) {
   const [sourceUrl, setSourceUrl] = useState<string>("");
-  const [error, setError] = useState<{ title: string; description: string } | null>(null);
+  const [error, setError] = useState<{
+    title: string;
+    description: string;
+  } | null>(null);
 
   const handleFetch = async () => {
     setIsLoading(true);

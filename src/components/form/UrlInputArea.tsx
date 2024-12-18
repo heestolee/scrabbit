@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Input, Button, FormControl } from "@chakra-ui/react";
 import { handleError } from "@/utils/errorHandler";
 
@@ -33,7 +34,7 @@ export default function UrlInputArea({
       py={4}
       gap={3}
       alignItems="center"
-      w="70%"
+      w="80%"
     >
       <FormControl width="100%" isRequired>
         <Input

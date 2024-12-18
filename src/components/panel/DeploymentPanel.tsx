@@ -28,7 +28,10 @@ export default function DeploymentPanel({
   const [subdomain, setSubdomain] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
-  const [error, setError] = useState<{ title: string; description: string } | null>(null);
+  const [error, setError] = useState<{
+    title: string;
+    description: string;
+  } | null>(null);
   const renderSectionRef = useRef<HTMLDivElement>(null);
 
   const handleDeploy = async () => {

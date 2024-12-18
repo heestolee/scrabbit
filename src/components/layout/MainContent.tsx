@@ -48,13 +48,15 @@ export default function MainContent() {
             setIsLoading={setIsLoading}
             setIsRendered={setIsRendered}
           />
-          {isRendered && <DeploymentPanel
-            isRendered={isRendered}
-            deployMode={deployMode}
-            pageId={pageId}
-            selectedBlocksHtml={selectedBlocksHtml}
-            snapshotHtml={snapshotHtml}
-          />}
+          {isRendered && (
+            <DeploymentPanel
+              isRendered={isRendered}
+              deployMode={deployMode}
+              pageId={pageId}
+              selectedBlocksHtml={selectedBlocksHtml}
+              snapshotHtml={snapshotHtml}
+            />
+          )}
         </Box>
       </Box>
     </ErrorBoundary>
