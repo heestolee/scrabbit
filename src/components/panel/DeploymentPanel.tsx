@@ -13,7 +13,6 @@ import { handleError } from "@/utils/errorHandler";
 interface DeploymentPanelProps {
   isRendered: boolean;
   deployMode: "full" | "partial";
-  pageId: string | null;
   selectedBlocksHtml: { id: string; html: string }[];
   snapshotHtml: string | null;
 }
@@ -21,7 +20,6 @@ interface DeploymentPanelProps {
 export default function DeploymentPanel({
   isRendered,
   deployMode,
-  pageId,
   selectedBlocksHtml,
   snapshotHtml,
 }: DeploymentPanelProps) {
@@ -37,7 +35,6 @@ export default function DeploymentPanel({
   const handleDeploy = async () => {
     try {
       const { url } = await deployPage({
-        pageId,
         subdomain,
         deployMode,
         selectedBlocksHtml,

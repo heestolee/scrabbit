@@ -52,7 +52,6 @@ export default function MainContent() {
             <DeploymentPanel
               isRendered={isRendered}
               deployMode={deployMode}
-              pageId={pageId}
               selectedBlocksHtml={selectedBlocksHtml}
               snapshotHtml={snapshotHtml}
             />

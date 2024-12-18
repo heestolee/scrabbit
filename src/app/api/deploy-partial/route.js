@@ -4,9 +4,9 @@ import { createStyledLayout } from "@/lib/createStyledLayout";
 
 export async function POST(request) {
   try {
-    const { pageId, subdomain, deployContent } = await request.json();
+    const { subdomain, deployContent } = await request.json();
 
-    const projectName = `scrabbit-${subdomain}-${pageId}`;
+    const projectName = `scrabbit-${subdomain}`;
     const domainCheckResponse = await fetch(
       `https://api.vercel.com/v9/projects/${projectName}/domains`,
       {

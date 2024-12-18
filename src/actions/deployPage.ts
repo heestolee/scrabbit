@@ -1,7 +1,6 @@
 "use server";
 
 export interface DeployPageInput {
-  pageId: string | null;
   subdomain: string;
   deployMode: "full" | "partial";
   selectedBlocksHtml: { id: string; html: string }[];
@@ -14,7 +13,6 @@ export interface DeployPageResult {
 }
 
 export async function deployPage({
-  pageId,
   subdomain,
   deployMode,
   selectedBlocksHtml,
@@ -34,7 +32,6 @@ export async function deployPage({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        pageId,
         subdomain,
         deployMode,
         deployContent: deploySetting.deployContent,
