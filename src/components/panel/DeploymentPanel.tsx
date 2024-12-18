@@ -54,7 +54,7 @@ export default function DeploymentPanel({
   };
 
   return (
-    <Box>
+    <Box w="30%">
       {error && (
         <ErrorAlert
           title={error.title}

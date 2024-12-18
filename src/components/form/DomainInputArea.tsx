@@ -33,6 +33,7 @@ export default function DomainInputArea({
           bg={"white"}
           borderRadius={"xl"}
           height={"10%"}
+          w={"80%"}
           px={3}
         >
           <FormControl display="flex" alignItems="baseline" px="2">
