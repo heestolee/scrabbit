@@ -13,6 +13,7 @@
   },
   "plugins": ["react", "react-hooks", "prettier"],
   "rules": {
+    "no-unused-vars": "off",
     "jsx-a11y/html-has-lang": "off",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
