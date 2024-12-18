@@ -51,7 +51,7 @@ export default function DeployPreviewRenderer({
             <Box
               key={id}
               dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(block.html),
+                __html: block.html,
               }}
               h="max-content"
             />

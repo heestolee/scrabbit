@@ -47,7 +47,7 @@ export default function FetchedPageRenderer({
                   ...prev,
                   {
                     id: blockId,
-                    html: DOMPurify.sanitize(blockElement.outerHTML)
+                    html: DOMPurify.sanitize(blockElement.outerHTML, { ADD_TAGS: ["iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] }),
                   },
                 ];
           });
@@ -111,7 +111,7 @@ export default function FetchedPageRenderer({
           onClose={() => setError(null)}
         />
       )}
-      <Box dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(snapshotHtml, { ADD_TAGS: ["iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] }) }} />
+      <Box dangerouslySetInnerHTML={{ __html: snapshotHtml, }} />
     </Box>
   );
 }
