@@ -7,6 +7,7 @@ import FetchedPageRenderer from "@/components/renderer/FetchedPageRenderer";
 import ErrorAlert from "@/components/error-boundary/ErrorAlert";
 import { fetchPage } from "@/actions/fetchPage";
 import { handleError } from "@/utils/errorHandler";
+import commonStyles from "@/theme/commonStyles";
 
 interface ContentInteractionPanelProps {
   deployMode: "full" | "partial";
@@ -97,23 +98,9 @@ export default function ContentInteractionPanel({
           mx="auto"
           bg="white"
           alignContent="center"
-          overflowY="auto"
           overflowX="hidden"
-          sx={{
-            "&::-webkit-scrollbar": {
-              width: "0.625rem",
-              padding: "0.625rem",
-              margin: "0.625rem",
-            },
-            "&::-webkit-scrollbar-track": {
-              background: "var(--chakra-colors-gray-400)",
-              borderRadius: "0.625rem",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: "var(--chakra-colors-purple-300)",
-              borderRadius: "0.625rem",
-            },
-          }}
+          overflowY="auto"
+          sx={commonStyles.scrollBar}
         >
           {isLoading && <LoadingAnimation />}
           {snapshotHtml && (

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Box, Center } from "@chakra-ui/react";
+import commonStyles from "@/theme/commonStyles";
 
 interface DeployPreviewRendererProps {
   deployMode: "full" | "partial";
@@ -26,24 +27,9 @@ export default function DeployPreviewRenderer({
         bg="white"
         p={4}
         w="90%"
-        flexDirection="column"
         height="80%"
-        overflowY="scroll"
-        sx={{
-          "&::-webkit-scrollbar": {
-            width: "0.625rem",
-            padding: "0.625rem",
-            margin: "0.625rem",
-          },
-          "&::-webkit-scrollbar-track": {
-            background: "var(--chakra-colors-gray-400)",
-            borderRadius: "0.625rem",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "var(--chakra-colors-gray-500)",
-            borderRadius: "0.625rem",
-          },
-        }}
+        overflowY="auto"
+        sx={commonStyles.scrollBar}
         style={{ zoom: 0.6 }}
       >
         {deployMode === "partial" && selectedBlocksHtml.length ? (
