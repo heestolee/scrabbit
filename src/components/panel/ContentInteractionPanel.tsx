@@ -9,7 +9,6 @@ import { fetchPage } from "@/actions/fetchPage";
 import { handleError } from "@/utils/errorHandler";
 
 interface ContentInteractionPanelProps {
-  pageId: string | null;
   deployMode: "full" | "partial";
   setDeployMode: (mode: "full" | "partial") => void;
   snapshotHtml: string | null;
@@ -17,7 +16,6 @@ interface ContentInteractionPanelProps {
   setSelectedBlocksHtml: React.Dispatch<
     React.SetStateAction<{ id: string; html: string }[]>
   >;
-  setPageId: (id: string | null) => void;
   setSnapshotHtml: (html: string | null) => void;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
@@ -25,18 +23,17 @@ interface ContentInteractionPanelProps {
 }
 
 export default function ContentInteractionPanel({
-  pageId,
   deployMode,
   setDeployMode,
   snapshotHtml,
   selectedBlocksHtml,
   setSelectedBlocksHtml,
-  setPageId,
   setSnapshotHtml,
   isLoading,
   setIsLoading,
   setIsRendered,
 }: ContentInteractionPanelProps) {
+  const [pageId, setPageId] = useState<string | null>(null);
   const [sourceUrl, setSourceUrl] = useState<string>("");
   const [error, setError] = useState<{
     title: string;
