@@ -3,13 +3,14 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 
 type RootLayoutProps = {
   children: ReactElement;
+  guide: ReactElement;
 };
 
 export const metadata = {
   title: "scrabbit",
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children, guide }: RootLayoutProps) {
   const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   if (!GA_ID) {
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body>
         <GoogleAnalytics gaId={GA_ID!} />
         {children}
+        {guide}
       </body>
     </html>
   );
