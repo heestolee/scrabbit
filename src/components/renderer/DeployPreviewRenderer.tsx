@@ -28,6 +28,7 @@ export default function DeployPreviewRenderer({
         p={4}
         w="90%"
         height="80%"
+        overflowX="auto"
         overflowY="auto"
         sx={commonStyles.scrollBar}
         style={{ zoom: 0.6 }}

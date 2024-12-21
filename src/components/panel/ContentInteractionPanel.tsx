@@ -98,7 +98,7 @@ export default function ContentInteractionPanel({
           mx="auto"
           bg="white"
           alignContent="center"
-          overflowX="hidden"
+          overflowX="auto"
           overflowY="auto"
           sx={commonStyles.scrollBar}
         >
