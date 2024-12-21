@@ -24,6 +24,6 @@ export async function fetchPage(sourceUrl: string): Promise<FetchPageResult> {
     return { pageId, snapshotHtml: sanitizedHtml || null };
   } catch (error) {
     console.error("페이지 페칭 에러:", error);
-    return { pageId: "", snapshotHtml: null };
+    throw error;
   }
 }
