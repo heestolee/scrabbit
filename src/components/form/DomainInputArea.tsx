@@ -24,11 +24,11 @@ export default function DomainInputArea({
       <InputField
         value={subdomain}
         onChange={(e) => setSubdomain(e.target.value)}
-        placeholder="배포 URL 입력"
+        placeholder="생성할 서브 주소 입력"
         prefix="https://"
         suffix=".scrabbit.site"
       />
-      <SubmitButton label="배포" colorScheme="green" />
+      <SubmitButton label="생성" colorScheme="green" />
     </FormContainer>
   );
 }

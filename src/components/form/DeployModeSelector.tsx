@@ -21,7 +21,7 @@ export default function DeployModeSelector({
           m="0"
           color={deployMode === "full" ? "black" : "gray.300"}
         >
-          전체배포
+          전체선택
         </FormLabel>
         <Switch
           id="deploy-mode-switch"
@@ -36,7 +36,7 @@ export default function DeployModeSelector({
           mb="0"
           color={deployMode === "full" ? "gray.300" : "black"}
         >
-          부분배포
+          부분선택
         </FormLabel>
       </FormControl>
     </Box>

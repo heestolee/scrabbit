@@ -30,11 +30,11 @@ export default function UrlInputArea({
       <InputField
         value={sourceUrl}
         onChange={(e) => setSourceUrl(e.target.value)}
-        placeholder="url을 입력해주세요"
+        placeholder="웹사이트 주소를 입력해주세요."
         isRequired
       />
       <SubmitButton
-        label="데이터 가져오기"
+        label="페이지 불러오기"
         colorScheme="blue"
         isLoading={isLoading}
       />

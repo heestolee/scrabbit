@@ -43,9 +43,9 @@ export default function DeployPreviewRenderer({
             />
           ))
         ) : deployMode === "full" ? (
-          <Center>전체배포 모드입니다.</Center>
+          <Center>전체선택 모드입니다.</Center>
         ) : (
-          <Center>부분배포 모드입니다.</Center>
+          <Center>부분선택 모드입니다.</Center>
         )}
       </Box>
     </Center>
