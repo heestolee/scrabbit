@@ -1,5 +1,7 @@
 import React from "react";
-import { Box, Input, Button, FormControl } from "@chakra-ui/react";
+import FormContainer from "@/components/shared/FormContainer";
+import InputField from "@/components/shared/InputField";
+import SubmitButton from "@/components/shared/SubmitButton";
 
 interface DomainInputAreaProps {
   subdomain: string;
@@ -18,45 +20,15 @@ export default function DomainInputArea({
   };
 
   return (
-    <Box display="flex" flexDirection="row" alignItems="center" py={4} w="100%">
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box
-          display="flex"
-          bg={"white"}
-          borderRadius={"xl"}
-          height={"10%"}
-          w={"80%"}
-          px={3}
-        >
-          <FormControl display="flex" alignItems="baseline" px="2">
-            https://
-            <Input
-              id="subdomain"
-              type="text"
-              value={subdomain}
-              onChange={(e) => setSubdomain(e.target.value)}
-              placeholder="배포 URL 입력"
-              fontSize="12"
-              border="none"
-              minWidth="1"
-              mr={2}
-              pl={2}
-            />
-            .scrabbit.site
-          </FormControl>
-        </Box>
-        <Button type="submit" colorScheme="green" width="20%">
-          배포
-        </Button>
-      </form>
-    </Box>
+    <FormContainer onSubmit={handleSubmit}>
+      <InputField
+        value={subdomain}
+        onChange={(e) => setSubdomain(e.target.value)}
+        placeholder="배포 URL 입력"
+        prefix="https://"
+        suffix=".scrabbit.site"
+      />
+      <SubmitButton label="배포" colorScheme="green" />
+    </FormContainer>
   );
 }
