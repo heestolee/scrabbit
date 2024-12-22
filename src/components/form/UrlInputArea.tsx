@@ -6,7 +6,7 @@ import SubmitButton from "@/components/shared/SubmitButton";
 export interface UrlInputAreaProps {
   sourceUrl: string;
   setSourceUrl: React.Dispatch<React.SetStateAction<string>>;
-  handleFetch: () => Promise<void>;
+  handleFetch: (url: string) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -18,8 +18,18 @@ export default function UrlInputArea({
 }: UrlInputAreaProps) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    let normalizedUrl = sourceUrl.trim();
+    if (!normalizedUrl.startsWith("https://")) {
+      if (normalizedUrl.startsWith("www.")) {
+        normalizedUrl = `https://${normalizedUrl}`;
+      } else {
+        normalizedUrl = `https://www.${normalizedUrl}`;
+      }
+    }
+
     try {
-      await handleFetch();
+      await handleFetch(normalizedUrl);
     } catch (error) {
       console.error(error);
     }

@@ -41,7 +41,7 @@ export default function ContentInteractionPanel({
     description: string;
   } | null>(null);
 
-  const handleFetch = async () => {
+  const handleFetch = async (sourceUrl: string) => {
     setIsLoading(true);
     setSnapshotHtml(null);
 
