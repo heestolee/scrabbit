@@ -6,7 +6,10 @@ interface FormContainerProps {
   children: React.ReactNode;
 }
 
-export default function FormContainer({ onSubmit, children }: FormContainerProps) {
+export default function FormContainer({
+  onSubmit,
+  children,
+}: FormContainerProps) {
   return (
     <Box
       as="form"
