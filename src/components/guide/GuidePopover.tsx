@@ -55,22 +55,19 @@ export const GuidePopover = () => {
                 1. 메인화면
               </Text>
               <Text fontSize="md" mb="2">
-                “배포 모드를 선택할 수 있습니다.”
-              </Text>
-              <Text fontSize="md" mb="2">
                 “입력한 웹사이트의 내용을 불러옵니다.”
               </Text>
             </Box>
             <Text fontWeight="bold" mb="2" color="#343394">
-              1-1. 선택모드 설명:
+              1-1. 선택 모드 설명:
             </Text>
             <UnorderedList mb="4" pl="6">
               <ListItem mb="2">
-                <strong>전체선택:</strong> 입력한 주소에 해당하는 전체 페이지를
+                <strong>전체 선택:</strong> 입력한 주소에 해당하는 전체 페이지를
                 그대로 새로 생성합니다.
               </ListItem>
               <ListItem>
-                <strong>부분선택:</strong> 페이지의 특정 부분만 선택하여
+                <strong>부분 선택:</strong> 페이지의 특정 부분만 선택하여
                 페이지를 생성할 수 있습니다.
               </ListItem>
             </UnorderedList>
@@ -98,7 +95,7 @@ export const GuidePopover = () => {
                 2. 불러온 페이지 화면
               </Text>
               <Text fontSize="md" mb="2">
-                “선택한 내용으로 입력한 주소의 웹사이트를 생성할 수 있습니다.”
+                “선택한 내용을 구성으로 한 웹사이트를 생성할 수 있습니다.”
               </Text>
               <Text fontSize="md" mb="4">
                 “미리보기로 구성을 미리 확인할 수 있습니다.”
@@ -110,11 +107,11 @@ export const GuidePopover = () => {
             </Text>
             <UnorderedList mb="4" pl="6">
               <ListItem mb="2">
-                <strong>전체선택:</strong> 가져온 페이지를 그대로
+                <strong>전체 선택:</strong> 가져온 페이지를 그대로
                 생성합니다.(미리보기 제공 X)
               </ListItem>
               <ListItem>
-                <strong>부분선택:</strong> 선택한 내용을 구성으로 페이지를
+                <strong>부분 선택:</strong> 취사선택한 내용을 구성으로 페이지를
                 생성합니다.
                 <UnorderedList>
                   <ListItem>
