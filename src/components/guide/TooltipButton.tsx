@@ -26,13 +26,13 @@ export const TooltipButton = ({
           backgroundColor="blue.500"
           color="white"
           borderRadius="full"
-          width="60px"
-          height="60px"
+          width="10"
+          height="10"
           boxShadow="lg"
           _hover={{ backgroundColor: "blue.400" }}
           onClick={onClick}
         >
-          <Icon as={InfoOutlineIcon} w="6" h="6" />
+          <Icon as={InfoOutlineIcon} w="5" h="5" />
         </Button>
       </Tooltip>
     </Box>

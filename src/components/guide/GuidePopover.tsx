@@ -34,8 +34,8 @@ export const GuidePopover = () => {
         zIndex="10"
         style={{
           position: "absolute",
-          top: "70px",
-          right: "-60px",
+          top: "40px",
+          right: "-40px",
         }}
         fontFamily="'Malgun Gothic', sans-serif"
       >

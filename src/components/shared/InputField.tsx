@@ -8,6 +8,7 @@ interface InputFieldProps {
   isRequired?: boolean;
   prefix?: string;
   suffix?: string;
+  px?: string;
 }
 
 export default function InputField({
@@ -17,6 +18,7 @@ export default function InputField({
   isRequired = false,
   prefix = "",
   suffix = "",
+  px = "",
 }: InputFieldProps) {
   return (
     <FormControl
@@ -27,6 +29,7 @@ export default function InputField({
       borderColor="gray.300"
       borderRadius="md"
       _focus={{ borderColor: "blue.500" }}
+      px={px}
     >
       {prefix && <span>{prefix}</span>}
       <Input

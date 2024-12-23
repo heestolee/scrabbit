@@ -27,6 +27,7 @@ export default function DomainInputArea({
         placeholder="생성할 서브 주소 입력"
         prefix="https://"
         suffix=".scrabbit.site"
+        px="2"
       />
       <SubmitButton label="생성" colorScheme="green" />
     </FormContainer>
