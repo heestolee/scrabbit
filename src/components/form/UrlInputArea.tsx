@@ -44,7 +44,7 @@ export default function UrlInputArea({
         isRequired
       />
       <SubmitButton
-        label="페이지 불러오기"
+        label="불러오기"
         colorScheme="blue"
         isLoading={isLoading}
       />

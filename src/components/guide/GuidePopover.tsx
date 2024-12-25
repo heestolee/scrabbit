@@ -79,7 +79,7 @@ export const GuidePopover = () => {
               <ListItem>입력창에 불러올 웹사이트의 주소를 입력하세요.</ListItem>
               <ListItem>“https://www.”가 포함된 주소를 입력해주세요.</ListItem>
               <ListItem>
-                입력 후 “페이지 불러오기” 버튼을 클릭하면 페이지를 불러옵니다.
+                입력 후 “불러오기” 버튼을 클릭하면 페이지를 불러옵니다.
               </ListItem>
             </UnorderedList>
 
