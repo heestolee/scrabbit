@@ -14,7 +14,7 @@ export default function DeployModeSelector({
   };
 
   return (
-    <Box>
+    <Box w="300px">
       <FormControl display="flex" alignItems="center" justifyContent="center">
         <FormLabel
           htmlFor="deploy-mode-switch"
