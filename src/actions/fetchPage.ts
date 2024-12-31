@@ -16,14 +16,23 @@ export async function fetchPage(sourceUrl: string): Promise<FetchPageResult> {
       body: JSON.stringify({ sourceUrl }),
     });
 
-    if (!response.ok) throw new Error("페이지 페칭 실패");
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData?.message || "페이지를 가져오는 데 실패했습니다.",
+      );
+    }
 
     const data = (await response.json()) as { snapshotHtml: string | null };
     const sanitizedHtml = data.snapshotHtml || "";
 
     return { pageId, snapshotHtml: sanitizedHtml || null };
-  } catch (error) {
-    console.error("페이지 페칭 에러:", error);
-    throw error;
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "fetchPage에서 예기치 않은 오류가 발생했습니다.";
+    console.error("fetchPage 에러:", errorMessage);
+    throw new Error(errorMessage);
   }
 }
