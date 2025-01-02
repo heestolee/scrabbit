@@ -30,6 +30,9 @@ export default async function takePreviewSnapshot(sourceUrl) {
     await page.evaluateHandle("document.fonts.ready");
     console.log("font loaded");
 
+    await page.waitForSelector("body");
+    console.log("body loaded");
+
     switch (true) {
       case sourceUrl.includes("notion.site" || "notion.so"):
         await notionEvaluate(page);

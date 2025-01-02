@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useCallback, useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Box } from "@chakra-ui/react";
 import DOMPurify from "isomorphic-dompurify";
 import { handleError } from "@/utils/errorHandler";
@@ -18,43 +18,28 @@ interface FetchedPageRendererProps {
 export default function FetchedPageRenderer({
   snapshotHtml,
   deployMode,
-  selectedBlocksHtml,
   setSelectedBlocksHtml,
 }: FetchedPageRendererProps) {
-  const pageRef = useRef<HTMLDivElement>(null);
+  const [hoveredBlockId, setHoveredBlockId] = useState<string | null>(null);
+  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
   const [error, setError] = useState<{
     title: string;
     description: string;
   } | null>(null);
 
   const handleBlockClick = useCallback(
-    (event: React.MouseEvent<HTMLElement>) => {
+    (blockId: string, blockHtml: string) => {
       try {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const blockElement = event.currentTarget as HTMLElement;
-        const blockId =
-          blockElement.getAttribute("data-block-id") ||
-          blockElement.textContent ||
-          "";
-
         if (deployMode === "partial") {
-          blockElement.style.outline = "none";
-          blockElement.style.cursor = "default";
-
           setSelectedBlocksHtml((prev) => {
-            const isAlreadySelected = prev.some(
-              (block) => block.id === blockId,
-            );
-
-            return isAlreadySelected
+            const isSelected = prev.some((block) => block.id === blockId);
+            return isSelected
               ? prev.filter((block) => block.id !== blockId)
               : [
                   ...prev,
                   {
                     id: blockId,
-                    html: DOMPurify.sanitize(blockElement.outerHTML, {
+                    html: DOMPurify.sanitize(blockHtml, {
                       ADD_TAGS: ["iframe"],
                       ADD_ATTR: [
                         "allow",
@@ -74,51 +59,38 @@ export default function FetchedPageRenderer({
     [deployMode, setSelectedBlocksHtml],
   );
 
-  useEffect(() => {
-    if (deployMode !== "partial" || !pageRef.current) return;
+  const handleMouseOver = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    const blockElement = (e.target as HTMLElement).closest("[data-block-id]");
+    const blockId = blockElement?.getAttribute("data-block-id");
+    setHoveredBlockId(blockId || null);
+  };
 
-    const blockElements = pageRef.current.querySelectorAll<HTMLElement>(
-      "*:not(script):not(style):not(link)",
-    );
+  const handleMouseOut = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setHoveredBlockId(null);
+  };
 
-    const handleEventListener = (event: Event) => {
-      handleBlockClick(event as unknown as React.MouseEvent<HTMLElement>);
-    };
-
-    blockElements.forEach((block) => {
-      const blockId =
-        block.getAttribute("data-block-id") || block.textContent || "";
-
-      block.addEventListener("click", handleEventListener);
-
-      const isSelected = selectedBlocksHtml.some((b) => b.id === blockId);
-      block.style.outline = isSelected ? "2px solid #62aaff" : "none";
-
-      block.addEventListener("mouseenter", () => {
-        if (!isSelected) {
-          block.style.outline = "1px dashed lightgray";
-          block.style.cursor = "pointer";
+  const handleOnClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      const blockElement = (e.target as HTMLElement).closest("[data-block-id]");
+      if (blockElement) {
+        const blockId = blockElement.getAttribute("data-block-id");
+        const blockHtml = blockElement.outerHTML;
+        if (blockId) {
+          handleBlockClick(blockId, blockHtml);
+          setSelectedBlockId(blockId === selectedBlockId ? null : blockId);
         }
-      });
-
-      block.addEventListener("mouseleave", () => {
-        if (!isSelected) {
-          block.style.outline = "none";
-        }
-      });
-    });
-
-    return () => {
-      blockElements.forEach((block) => {
-        block.removeEventListener("click", handleEventListener);
-      });
-    };
-  }, [selectedBlocksHtml, handleBlockClick, deployMode]);
+      }
+    },
+    [handleBlockClick, selectedBlockId],
+  );
 
   if (!snapshotHtml) return <div>No data available.</div>;
 
   return (
-    <Box h="100%" textAlign="left" ref={pageRef}>
+    <Box>
       {error && (
         <ErrorAlert
           title={error.title}
@@ -126,7 +98,38 @@ export default function FetchedPageRenderer({
           onClose={() => setError(null)}
         />
       )}
-      <Box dangerouslySetInnerHTML={{ __html: snapshotHtml }} />
+      <div
+        dangerouslySetInnerHTML={{ __html: snapshotHtml }}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+        onClick={handleOnClick}
+        style={{
+          cursor: deployMode === "partial" ? "pointer" : "default",
+        }}
+      />
+      <style>
+        {`
+          ${
+            hoveredBlockId
+              ? `
+            [data-block-id="${hoveredBlockId}"] {
+              outline: 1px dashed lightgray !important;
+            }
+          `
+              : ""
+          }
+
+          ${
+            selectedBlockId
+              ? `
+                [data-block-id="${selectedBlockId}"] {
+                  outline: 2px solid #62aaff !important;
+                }
+              `
+              : ""
+          }
+        `}
+      </style>
     </Box>
   );
 }
