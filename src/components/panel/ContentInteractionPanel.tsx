@@ -34,7 +34,6 @@ export default function ContentInteractionPanel({
   setIsLoading,
   setIsRendered,
 }: ContentInteractionPanelProps) {
-  const [pageId, setPageId] = useState<string | null>(null);
   const [sourceUrl, setSourceUrl] = useState<string>("");
   const [error, setError] = useState<{
     title: string;
@@ -46,8 +45,7 @@ export default function ContentInteractionPanel({
     setSnapshotHtml(null);
 
     try {
-      const { pageId, snapshotHtml } = await fetchPage(sourceUrl);
-      setPageId(pageId);
+      const { snapshotHtml } = await fetchPage(sourceUrl);
       setSnapshotHtml(snapshotHtml);
       setIsRendered(true);
     } catch (error) {
@@ -74,8 +72,8 @@ export default function ContentInteractionPanel({
       )}
       <Box
         display="flex"
-        flexDirection={pageId ? "row" : "column"}
-        alignItems={pageId ? "baseline" : "center"}
+        flexDirection={selectedBlocksHtml ? "row" : "column"}
+        alignItems={selectedBlocksHtml ? "baseline" : "center"}
         justifyContent="space-between"
         w="100%"
       >
@@ -91,7 +89,7 @@ export default function ContentInteractionPanel({
         />
       </Box>
 
-      {(pageId || isLoading) && (
+      {(selectedBlocksHtml || isLoading) && (
         <Box
           h="80vh"
           w="100%"

@@ -1,7 +1,6 @@
 "use server";
 
 export interface FetchPageResult {
-  pageId: string;
   snapshotHtml: string | null;
 }
 
@@ -24,9 +23,8 @@ export async function fetchPage(sourceUrl: string): Promise<FetchPageResult> {
     }
 
     const data = (await response.json()) as { snapshotHtml: string | null };
-    const sanitizedHtml = data.snapshotHtml || "";
 
-    return { pageId, snapshotHtml: sanitizedHtml || null };
+    return { snapshotHtml: data.snapshotHtml || null };
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error
