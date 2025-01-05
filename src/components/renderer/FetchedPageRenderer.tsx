@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { Box } from "@chakra-ui/react";
 import DOMPurify from "isomorphic-dompurify";
 import { handleError } from "@/utils/errorHandler";
@@ -26,6 +26,7 @@ export default function FetchedPageRenderer({
     title: string;
     description: string;
   } | null>(null);
+  const hoverTimer = useRef<NodeJS.Timeout | null>(null);
 
   const handleBlockClick = useCallback(
     (blockId: string, blockHtml: string) => {
@@ -61,9 +62,12 @@ export default function FetchedPageRenderer({
 
   const handleMouseOver = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    const blockElement = (e.target as HTMLElement).closest("[data-block-id]");
-    const blockId = blockElement?.getAttribute("data-block-id");
-    setHoveredBlockId(blockId || null);
+    clearTimeout(hoverTimer.current!);
+    hoverTimer.current = setTimeout(() => {
+      const blockElement = (e.target as HTMLElement).closest("[data-block-id]");
+      const blockId = blockElement?.getAttribute("data-block-id");
+      setHoveredBlockId(blockId || null);
+    }, 100);
   };
 
   const handleMouseOut = (e: React.MouseEvent<HTMLDivElement>) => {
