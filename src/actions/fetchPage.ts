@@ -9,7 +9,7 @@ export async function fetchPage(sourceUrl: string): Promise<FetchPageResult> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   try {
-    const response = await fetch(`${baseUrl}/api/puppeteer-preview-snapshot`, {
+    const response = await fetch(`${baseUrl}/api/snapshots`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sourceUrl }),

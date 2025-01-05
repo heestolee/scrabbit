@@ -22,10 +22,13 @@ export async function deployPage({
   const deploySetting =
     deployMode === "partial"
       ? {
-          apiEndpoint: `${baseUrl}/api/deploy-partial`,
+          apiEndpoint: `${baseUrl}/api/deployments/partial`,
           deployContent: selectedBlocksHtml,
         }
-      : { apiEndpoint: `${baseUrl}/api/deploy`, deployContent: snapshotHtml };
+      : {
+          apiEndpoint: `${baseUrl}/api/deployments/full`,
+          deployContent: snapshotHtml,
+        };
 
   try {
     const response = await fetch(deploySetting.apiEndpoint, {

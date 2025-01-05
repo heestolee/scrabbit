@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { waitForSSLCertification } from "@/lib/waitForSSLCertification";
 
 export async function POST(request) {
-  const { pageId, subdomain, deployContent } = await request.json();
+  const { subdomain, deployContent } = await request.json();
 
   try {
-    const projectName = `scrabbit-${subdomain}-${pageId}`;
+    const projectName = `scrabbit-${subdomain}`;
 
     const domainCheckResponse = await fetch(
       `https://api.vercel.com/v9/projects/${projectName}/domains`,
