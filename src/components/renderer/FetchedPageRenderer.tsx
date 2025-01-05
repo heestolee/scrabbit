@@ -29,28 +29,21 @@ export default function FetchedPageRenderer({
   const hoverTimer = useRef<NodeJS.Timeout | null>(null);
 
   const handleBlockClick = useCallback(
-    (blockId: string, blockHtml: string) => {
+    (blockId: string, blockElement: HTMLElement) => {
       try {
         if (deployMode === "partial") {
+          const blockHtml = DOMPurify.sanitize(blockElement.outerHTML, {
+            ADD_TAGS: ["iframe"],
+            ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"],
+          });
+
           setSelectedBlocksHtml((prev) => {
             const isSelected = prev.some((block) => block.id === blockId);
-            return isSelected
-              ? prev.filter((block) => block.id !== blockId)
-              : [
-                  ...prev,
-                  {
-                    id: blockId,
-                    html: DOMPurify.sanitize(blockHtml, {
-                      ADD_TAGS: ["iframe"],
-                      ADD_ATTR: [
-                        "allow",
-                        "allowfullscreen",
-                        "frameborder",
-                        "scrolling",
-                      ],
-                    }),
-                  },
-                ];
+            if (isSelected) {
+              return prev.filter((block) => block.id !== blockId);
+            } else {
+              return [...prev, { id: blockId, html: blockHtml }];
+            }
           });
         }
       } catch (error) {
@@ -78,12 +71,14 @@ export default function FetchedPageRenderer({
   const handleOnClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
-      const blockElement = (e.target as HTMLElement).closest("[data-block-id]");
-      if (blockElement) {
+      const blockElement = (e.target as HTMLElement).closest(
+        "[data-block-id]",
+      ) as HTMLElement | null;
+
+      if (blockElement && blockElement instanceof HTMLElement) {
         const blockId = blockElement.getAttribute("data-block-id");
-        const blockHtml = blockElement.outerHTML;
         if (blockId) {
-          handleBlockClick(blockId, blockHtml);
+          handleBlockClick(blockId, blockElement);
           setSelectedBlockId(blockId === selectedBlockId ? null : blockId);
         }
       }
