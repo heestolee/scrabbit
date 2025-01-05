@@ -21,7 +21,6 @@ export default function FetchedPageRenderer({
   setSelectedBlocksHtml,
 }: FetchedPageRendererProps) {
   const [hoveredBlockId, setHoveredBlockId] = useState<string | null>(null);
-  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
   const [error, setError] = useState<{
     title: string;
     description: string;
@@ -79,11 +78,10 @@ export default function FetchedPageRenderer({
         const blockId = blockElement.getAttribute("data-block-id");
         if (blockId) {
           handleBlockClick(blockId, blockElement);
-          setSelectedBlockId(blockId === selectedBlockId ? null : blockId);
         }
       }
     },
-    [handleBlockClick, selectedBlockId],
+    [handleBlockClick],
   );
 
   if (!snapshotHtml) return <div>No data available.</div>;
@@ -110,21 +108,7 @@ export default function FetchedPageRenderer({
         {`
           ${
             hoveredBlockId
-              ? `
-            [data-block-id="${hoveredBlockId}"] {
-              outline: 1px dashed lightgray !important;
-            }
-          `
-              : ""
-          }
-
-          ${
-            selectedBlockId
-              ? `
-                [data-block-id="${selectedBlockId}"] {
-                  outline: 2px solid #62aaff !important;
-                }
-              `
+              ? ` [data-block-id="${hoveredBlockId}"] { outline: 1px solid #62aaff !important; } `
               : ""
           }
         `}
