@@ -17,7 +17,9 @@ export default async function defaultEvaluate(page) {
       const computedStyle = window.getComputedStyle(element);
       if (
         computedStyle.position === "absolute" ||
-        computedStyle.position === "fixed"
+        computedStyle.position === "fixed" ||
+        (typeof element.className === "string" &&
+          element.className.includes("banner"))
       ) {
         element.style.display = "none";
       } else {
