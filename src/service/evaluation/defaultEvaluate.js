@@ -1,5 +1,5 @@
 export default async function defaultEvaluate(page) {
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
     function generateUUID() {
       return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
         /[xy]/g,
@@ -31,5 +31,20 @@ export default async function defaultEvaluate(page) {
         element.setAttribute("style", inlineStyle);
       }
     });
+
+    const images = Array.from(document.querySelectorAll("img[src*='.svg']"));
+    for (const img of images) {
+      try {
+        const response = await fetch(img.src);
+        const svgText = await response.text();
+        const svgElement = new DOMParser().parseFromString(
+          svgText,
+          "image/svg+xml",
+        ).documentElement;
+        img.replaceWith(svgElement);
+      } catch (err) {
+        console.error("Failed to fetch SVG:", err.message);
+      }
+    }
   });
 }
