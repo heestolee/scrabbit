@@ -42,6 +42,21 @@ export default async function takePreviewSnapshot(sourceUrl) {
         break;
     }
 
+    await page.evaluate((baseURL) => {
+      const elements = document.querySelectorAll("[src], [href]");
+      elements.forEach((el) => {
+        const src = el.getAttribute("src");
+        const href = el.getAttribute("href");
+
+        if (src && !src.startsWith("http")) {
+          el.setAttribute("src", new URL(src, baseURL).href);
+        }
+        if (href && !href.startsWith("http")) {
+          el.setAttribute("href", new URL(href, baseURL).href);
+        }
+      });
+    }, sourceUrl);
+
     const snapshotHtml = await page.content();
     console.log("Puppeteer snapshot captured successfully");
 
