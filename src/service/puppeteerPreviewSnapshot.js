@@ -3,7 +3,7 @@ import defaultEvaluate from "./evaluation/defaultEvaluate";
 import notionEvaluate from "./evaluation/notionEvaluate";
 
 export default async function takePreviewSnapshot(sourceUrl) {
-  console.log("Puppeteer 시작:", sourceUrl);
+  console.log("Puppeteer start:", sourceUrl);
 
   const browser = await puppeteer.launch({
     headless: true,

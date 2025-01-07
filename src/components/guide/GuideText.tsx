@@ -32,7 +32,7 @@ export default function GuideText() {
   return (
     <Box fontSize="sm" lineHeight="1.1" textAlign="left">
       <Box {...sectionBoxStyle}>
-        <Text {...titleStyle}>1. 메인화면</Text>
+        <Text {...titleStyle}>1. 인트로 화면</Text>
         <Text fontSize="md">“입력한 웹사이트의 내용을 불러옵니다.”</Text>
       </Box>
 

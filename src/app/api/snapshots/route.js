@@ -6,7 +6,7 @@ export async function POST(request) {
     const { sourceUrl } = await request.json();
 
     if (!sourceUrl) {
-      throw new Error("가져올 URL이 입력되지 않았습니다.");
+      throw new Error("웹사이트 주소가 입력되지 않았습니다.");
     }
 
     const snapshotHtml = await takePreviewSnapshot(sourceUrl);
