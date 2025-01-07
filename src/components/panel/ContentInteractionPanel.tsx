@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Box } from "@chakra-ui/react";
+import Carousel from "@/components/carousel/Carousel";
 import DeployModeSelector from "@/components/form/DeployModeSelector";
 import UrlInputArea from "@/components/form/UrlInputArea";
 import LoadingAnimation from "@/components/shared/LoadingAnimation";
@@ -100,6 +101,7 @@ export default function ContentInteractionPanel({
         overflowY="auto"
         sx={commonStyles.scrollBar}
       >
+        {!isLoading && !isRendered && <Carousel />}
         {isLoading && <LoadingAnimation />}
         {snapshotHtml && (
           <FetchedPageRenderer
