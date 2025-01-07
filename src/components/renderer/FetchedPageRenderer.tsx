@@ -24,7 +24,7 @@ export default function FetchedPageRenderer({
     title: string;
     description: string;
   } | null>(null);
-  const hoverTimer = useRef<NodeJS.Timeout | null>(null);
+  const hoverTimer = useRef<number | null>(null);
 
   const handleBlockClick = useCallback(
     (blockId: string, blockElement: HTMLElement) => {
@@ -52,9 +52,10 @@ export default function FetchedPageRenderer({
   );
 
   const handleMouseOver = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (deployMode !== "partial") return;
     e.stopPropagation();
     clearTimeout(hoverTimer.current!);
-    hoverTimer.current = setTimeout(() => {
+    hoverTimer.current = window.setTimeout(() => {
       const blockElement = (e.target as HTMLElement).closest("[data-block-id]");
       const blockId = blockElement?.getAttribute("data-block-id");
       setHoveredBlockId(blockId || null);
