@@ -9,7 +9,6 @@ import ErrorAlert from "@/components/error-boundary/ErrorAlert";
 interface FetchedPageRendererProps {
   snapshotHtml: string | null;
   deployMode: "full" | "partial";
-  selectedBlocksHtml: { id: string; html: string }[];
   setSelectedBlocksHtml: React.Dispatch<
     React.SetStateAction<{ id: string; html: string }[]>
   >;

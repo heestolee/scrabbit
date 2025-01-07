@@ -43,9 +43,10 @@ export default function MainContent() {
             setSnapshotHtml={setSnapshotHtml}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
+            isRendered={isRendered}
             setIsRendered={setIsRendered}
           />
-          {selectedBlocksHtml && (
+          {!isLoading && isRendered && (
             <DeploymentPanel
               isRendered={isRendered}
               deployMode={deployMode}

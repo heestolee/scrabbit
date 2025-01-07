@@ -5,7 +5,6 @@ export interface FetchPageResult {
 }
 
 export async function fetchPage(sourceUrl: string): Promise<FetchPageResult> {
-  const pageId = sourceUrl.split("/").pop() || "";
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   try {

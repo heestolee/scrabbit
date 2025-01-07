@@ -20,6 +20,7 @@ interface ContentInteractionPanelProps {
   setSnapshotHtml: (html: string | null) => void;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
+  isRendered: boolean;
   setIsRendered: (rendered: boolean) => void;
 }
 
@@ -27,11 +28,11 @@ export default function ContentInteractionPanel({
   deployMode,
   setDeployMode,
   snapshotHtml,
-  selectedBlocksHtml,
   setSelectedBlocksHtml,
   setSnapshotHtml,
   isLoading,
   setIsLoading,
+  isRendered,
   setIsRendered,
 }: ContentInteractionPanelProps) {
   const [sourceUrl, setSourceUrl] = useState<string>("");
@@ -72,8 +73,8 @@ export default function ContentInteractionPanel({
       )}
       <Box
         display="flex"
-        flexDirection={selectedBlocksHtml ? "row" : "column"}
-        alignItems={selectedBlocksHtml ? "baseline" : "center"}
+        flexDirection="row"
+        alignItems="baseline"
         justifyContent="space-between"
         w="100%"
       >
@@ -89,28 +90,25 @@ export default function ContentInteractionPanel({
         />
       </Box>
 
-      {(selectedBlocksHtml || isLoading) && (
-        <Box
+      <Box
         maxH="80vh"
-          w="100%"
-          mx="auto"
-          bg="white"
-          alignContent="center"
-          overflowX="auto"
-          overflowY="auto"
-          sx={commonStyles.scrollBar}
-        >
-          {isLoading && <LoadingAnimation />}
-          {snapshotHtml && (
-            <FetchedPageRenderer
-              deployMode={deployMode}
-              snapshotHtml={snapshotHtml}
-              selectedBlocksHtml={selectedBlocksHtml}
-              setSelectedBlocksHtml={setSelectedBlocksHtml}
-            />
-          )}
-        </Box>
-      )}
+        w="100%"
+        mx="auto"
+        bg="white"
+        alignContent="center"
+        overflowX="auto"
+        overflowY="auto"
+        sx={commonStyles.scrollBar}
+      >
+        {isLoading && <LoadingAnimation />}
+        {snapshotHtml && (
+          <FetchedPageRenderer
+            deployMode={deployMode}
+            snapshotHtml={snapshotHtml}
+            setSelectedBlocksHtml={setSelectedBlocksHtml}
+          />
+        )}
+      </Box>
     </Box>
   );
 }
