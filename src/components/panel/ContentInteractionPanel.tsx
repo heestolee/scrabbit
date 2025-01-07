@@ -91,7 +91,7 @@ export default function ContentInteractionPanel({
 
       {(selectedBlocksHtml || isLoading) && (
         <Box
-          h="80vh"
+        maxH="80vh"
           w="100%"
           mx="auto"
           bg="white"

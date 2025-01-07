@@ -47,6 +47,7 @@ export default function UrlInputArea({
         label="불러오기"
         colorScheme="blue"
         isLoading={isLoading}
+        minWidth="72px"
       />
     </FormContainer>
   );

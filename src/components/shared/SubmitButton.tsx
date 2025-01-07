@@ -6,6 +6,7 @@ interface SubmitButtonProps {
   isLoading?: boolean;
   colorScheme: string;
   width?: string | object;
+  minWidth?: string;
 }
 
 export default function SubmitButton({
@@ -13,6 +14,7 @@ export default function SubmitButton({
   isLoading = false,
   colorScheme,
   width = "20%",
+  minWidth,
 }: SubmitButtonProps) {
   return (
     <Button
@@ -23,6 +25,7 @@ export default function SubmitButton({
       borderRadius="md"
       _hover={{ bg: `${colorScheme}.400` }}
       boxShadow="md"
+      minWidth={minWidth}
     >
       {label}
     </Button>

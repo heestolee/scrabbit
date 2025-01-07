@@ -75,7 +75,7 @@ export default function DeployModal({
           )}
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={closeModal}>
+          <Button colorScheme="blue" onClick={closeModal}>
             닫기
           </Button>
         </ModalFooter>

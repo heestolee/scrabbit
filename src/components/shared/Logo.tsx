@@ -13,9 +13,9 @@ export default function Logo({ isRendered, isLoading }: LogoProps) {
       initial={{ zoom: 1, x: 0 }}
       animate={
         isRendered
-          ? { zoom: 0.1, x: "-470vw" }
+          ? { zoom: 0.6, position: "fixed", top: "20px", left: "1.25%" }
           : isLoading
-            ? { zoom: 0.1 }
+            ? { zoom: 0.6 }
             : { zoom: 1 }
       }
       transition={{ duration: 0.8 }}
@@ -25,12 +25,12 @@ export default function Logo({ isRendered, isLoading }: LogoProps) {
         alignItems: "center",
       }}
     >
-      <Box p={10}>
+      <Box>
         <Image
           src="/scrabbit.svg"
           alt="scrabbit logo"
-          width={600}
-          height={300}
+          width={100}
+          height={50}
         />
       </Box>
     </motion.div>
