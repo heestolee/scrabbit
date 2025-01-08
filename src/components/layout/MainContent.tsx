@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 import Logo from "@/components/shared/Logo";
 import ContentInteractionPanel from "@/components/panel/ContentInteractionPanel";
 import DeploymentPanel from "@/components/panel/DeploymentPanel";
@@ -16,6 +16,8 @@ export default function MainContent() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRendered, setIsRendered] = useState<boolean>(false);
 
+  const [isTabletOrMobile] = useMediaQuery("(max-width: 1280px)");
+
   return (
     <ErrorBoundary>
       <Box
@@ -29,10 +31,12 @@ export default function MainContent() {
         <Logo isRendered={isRendered} />
         <Box
           display="flex"
-          flexDirection="row"
+          flexDirection={isTabletOrMobile ? "column" : "row"}
           w="full"
-          justifyContent="space-around"
+          justifyContent="center"
+          alignItems="center"
           height="100%"
+          gap="20px"
         >
           <ContentInteractionPanel
             deployMode={deployMode}

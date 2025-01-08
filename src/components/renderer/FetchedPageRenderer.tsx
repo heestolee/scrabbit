@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import DOMPurify from "isomorphic-dompurify";
 import { handleError } from "@/utils/errorHandler";
@@ -24,7 +24,24 @@ export default function FetchedPageRenderer({
     title: string;
     description: string;
   } | null>(null);
+  const [scale, setScale] = useState<number>(1);
   const hoverTimer = useRef<number | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      const targetWidth = 1200;
+      const calculatedScale = Math.min(1, width / targetWidth);
+      setScale(calculatedScale);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleBlockClick = useCallback(
     (blockId: string, blockElement: HTMLElement) => {
@@ -102,6 +119,9 @@ export default function FetchedPageRenderer({
         onClick={handleOnClick}
         style={{
           cursor: deployMode === "partial" ? "pointer" : "default",
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+          width: `${100 / scale}%`,
         }}
       />
       <style>
