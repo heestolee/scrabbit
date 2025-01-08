@@ -9,6 +9,7 @@ import DeployModal from "@/components/modal/DeployModal";
 import ErrorAlert from "@/components/error-boundary/ErrorAlert";
 import { deployPage } from "@/actions/deployPage";
 import { handleError } from "@/utils/errorHandler";
+import commonStyles from "@/theme/commonStyles";
 
 interface DeploymentPanelProps {
   isRendered: boolean;
@@ -30,7 +31,6 @@ export default function DeploymentPanel({
     title: string;
     description: string;
   } | null>(null);
-  const renderSectionRef = useRef<HTMLDivElement>(null);
 
   const handleDeploy = async () => {
     try {
@@ -54,7 +54,10 @@ export default function DeploymentPanel({
   };
 
   return (
-    <Box w="30%">
+    <Box
+      {...commonStyles.panelContainer}
+      w={{ base: "100%", md: "40%", lg: "30%" }}
+    >
       {error && (
         <ErrorAlert
           title={error.title}
@@ -63,15 +66,14 @@ export default function DeploymentPanel({
         />
       )}
       <motion.div
-        initial={{ width: "0%" }}
-        animate={isRendered ? { width: "100%" } : {}}
-        transition={{ duration: 1 }}
+        initial={{ opacity: 0 }}
+        animate={isRendered ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.5 }}
         style={{
-          transformOrigin: "left",
           display: isRendered ? "block" : "none",
         }}
       >
-        <Box ref={renderSectionRef} display="flex" flexDirection="column">
+        <Box display="flex" flexDirection="column" gap="4">
           <DomainInputArea
             subdomain={subdomain}
             setSubdomain={setSubdomain}

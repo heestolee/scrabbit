@@ -58,13 +58,7 @@ export default function ContentInteractionPanel({
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      w="65%"
-      h="100%"
-    >
+    <Box {...commonStyles.panelContainer}>
       {error && (
         <ErrorAlert
           title={error.title}
@@ -72,13 +66,7 @@ export default function ContentInteractionPanel({
           onClose={() => setError(null)}
         />
       )}
-      <Box
-        display="flex"
-        flexDirection="row"
-        alignItems="baseline"
-        justifyContent="space-between"
-        w="100%"
-      >
+      <Box {...commonStyles.panelContent}>
         <DeployModeSelector
           deployMode={deployMode}
           setDeployMode={setDeployMode}
@@ -94,12 +82,14 @@ export default function ContentInteractionPanel({
       <Box
         maxH="80vh"
         w="100%"
-        mx="auto"
+        mt="4"
         bg="white"
         alignContent="center"
         overflowX="auto"
         overflowY="auto"
         sx={commonStyles.scrollBar}
+        boxShadow="sm"
+        borderRadius="md"
       >
         {!isLoading && !isRendered && <Carousel />}
         {isLoading && <LoadingAnimation />}
