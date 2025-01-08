@@ -26,7 +26,7 @@ export default function MainContent() {
         justifyContent="center"
         minH="100vh"
       >
-        <Logo isRendered={isRendered} isLoading={isLoading} />
+        <Logo isRendered={isRendered} />
         <Box
           display="flex"
           flexDirection="row"
