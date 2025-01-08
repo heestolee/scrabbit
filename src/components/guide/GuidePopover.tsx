@@ -6,6 +6,7 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   PopoverBody,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { TooltipButton } from "@/components/guide/TooltipButton";
 
@@ -15,6 +16,7 @@ type GuidePopoverProps = {
 
 export const GuidePopover = ({ children }: GuidePopoverProps) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isTabletOrMobile] = useMediaQuery("(max-width: 768px)");
 
   const handlePopoverOpen = () => setIsPopoverOpen(true);
   const handlePopoverClose = () => setIsPopoverOpen(false);
@@ -27,20 +29,25 @@ export const GuidePopover = ({ children }: GuidePopoverProps) => {
       <PopoverContent
         borderRadius="15px"
         boxShadow="md"
-        width="38rem"
+        width={isTabletOrMobile ? "90vw" : "38rem"}
+        maxWidth="90vw"
         padding="10px"
         backgroundColor="white"
         zIndex="10"
         style={{
           position: "absolute",
-          top: "40px",
-          right: "-40px",
+          top: isTabletOrMobile ? "10px" : "40px",
+          right: isTabletOrMobile ? "1vw" : "-40px",
+          overflowY: "auto",
+          maxHeight: "80vh",
         }}
         fontFamily="'Malgun Gothic', sans-serif"
       >
         <PopoverArrow />
         <PopoverCloseButton right="1px" />
-        <PopoverBody>{children}</PopoverBody>
+        <PopoverBody fontSize={isTabletOrMobile ? "sm" : "md"}>
+          {children}
+        </PopoverBody>
       </PopoverContent>
     </Popover>
   );

@@ -7,7 +7,7 @@ import GuideText from "@/components/guide/GuideText";
 export default function Guide() {
   return (
     <GuidePopover>
-      <GuideText />
+      <GuideText isTabletOrMobile />
     </GuidePopover>
   );
 }
