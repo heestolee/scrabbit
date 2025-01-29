@@ -13,10 +13,10 @@ const commonStyles = {
     },
   },
   panelContainer: {
-    w: { base: "100%", md: "80%", lg: "65%" },
+    w: { base: "90%", md: "80%", lg: "65%" },
     h: "100%",
     p: "4",
-    bg: { base: "white", md: "gray.50" },
+    bg: "gray.50",
     borderRadius: "md",
     boxShadow: "md",
   },

@@ -56,7 +56,7 @@ export default function DeploymentPanel({
   return (
     <Box
       {...commonStyles.panelContainer}
-      w={{ base: "100%", md: "40%", lg: "30%" }}
+      w={{ base: "90%", md: "80%", lg: "65%", xl: "30%" }}
     >
       {error && (
         <ErrorAlert
@@ -66,11 +66,16 @@ export default function DeploymentPanel({
         />
       )}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={isRendered ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0, x: -50, width: 0 }}
+        animate={
+          isRendered
+            ? { opacity: 1, x: 0, width: "100%" }
+            : { opacity: 0, x: -50, width: 0 }
+        }
+        transition={{ duration: 0.5, ease: "easeOut" }}
         style={{
-          display: isRendered ? "block" : "none",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
         <Box display="flex" flexDirection="column" gap="4">

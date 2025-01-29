@@ -18,6 +18,7 @@ export function createStyledLayout(html) {
           padding: 20px;
           background-color: white;
           overflow-y: scroll;
+          overflow-x: auto;
         "
       >
         <style>

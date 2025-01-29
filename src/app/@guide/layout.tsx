@@ -5,7 +5,7 @@ import ChakraLayout from "@/components/layout/ChakraLayout";
 export default function GuideLayout({ children }: { children: ReactNode }) {
   return (
     <ChakraLayout>
-      <Box position="fixed" top="20px" right="1.25%" zIndex="10">
+      <Box position="fixed" top="10px" right="2%" zIndex="10">
         {children}
       </Box>
     </ChakraLayout>
