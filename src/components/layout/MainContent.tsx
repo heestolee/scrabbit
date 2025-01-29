@@ -7,8 +7,10 @@ import ContentInteractionPanel from "@/components/panel/ContentInteractionPanel"
 import DeploymentPanel from "@/components/panel/DeploymentPanel";
 import ErrorBoundary from "@/components/error-boundary/ErrorBoundary";
 
+export type Mode = "full" | "partial";
+
 export default function MainContent() {
-  const [deployMode, setDeployMode] = useState<"full" | "partial">("full");
+  const [deployMode, setDeployMode] = useState<Mode>("full");
   const [snapshotHtml, setSnapshotHtml] = useState<string | null>(null);
   const [selectedBlocksHtml, setSelectedBlocksHtml] = useState<
     { id: string; html: string }[]

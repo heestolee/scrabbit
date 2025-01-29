@@ -1,8 +1,10 @@
 "use server";
 
+import { Mode } from "@/components/layout/MainContent";
+
 export interface DeployPageInput {
   subdomain: string;
-  deployMode: "full" | "partial";
+  deployMode: Mode;
   selectedBlocksHtml: { id: string; html: string }[];
   snapshotHtml: string | null;
 }

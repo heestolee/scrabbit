@@ -10,10 +10,11 @@ import ErrorAlert from "@/components/error-boundary/ErrorAlert";
 import { deployPage } from "@/actions/deployPage";
 import { handleError } from "@/utils/errorHandler";
 import commonStyles from "@/theme/commonStyles";
+import { Mode } from "../layout/MainContent";
 
 interface DeploymentPanelProps {
   isRendered: boolean;
-  deployMode: "full" | "partial";
+  deployMode: Mode;
   selectedBlocksHtml: { id: string; html: string }[];
   snapshotHtml: string | null;
 }

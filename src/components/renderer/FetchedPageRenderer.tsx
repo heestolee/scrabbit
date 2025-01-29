@@ -5,10 +5,11 @@ import { Box } from "@chakra-ui/react";
 import DOMPurify from "isomorphic-dompurify";
 import { handleError } from "@/utils/errorHandler";
 import ErrorAlert from "@/components/error-boundary/ErrorAlert";
+import { Mode } from "../layout/MainContent";
 
 interface FetchedPageRendererProps {
   snapshotHtml: string | null;
-  deployMode: "full" | "partial";
+  deployMode: Mode;
   setSelectedBlocksHtml: React.Dispatch<
     React.SetStateAction<{ id: string; html: string }[]>
   >;

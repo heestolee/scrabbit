@@ -3,9 +3,10 @@
 import React from "react";
 import { Box, Center } from "@chakra-ui/react";
 import commonStyles from "@/theme/commonStyles";
+import { Mode } from "../layout/MainContent";
 
 interface DeployPreviewRendererProps {
-  deployMode: "full" | "partial";
+  deployMode: Mode;
   selectedBlocksHtml: { id: string; html: string }[];
 }
 

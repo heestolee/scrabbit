@@ -9,10 +9,11 @@ import ErrorAlert from "@/components/error-boundary/ErrorAlert";
 import { fetchPage } from "@/actions/fetchPage";
 import { handleError } from "@/utils/errorHandler";
 import commonStyles from "@/theme/commonStyles";
+import { Mode } from "../layout/MainContent";
 
 interface ContentInteractionPanelProps {
-  deployMode: "full" | "partial";
-  setDeployMode: (mode: "full" | "partial") => void;
+  deployMode: Mode;
+  setDeployMode: (mode: Mode) => void;
   snapshotHtml: string | null;
   selectedBlocksHtml: { id: string; html: string }[];
   setSelectedBlocksHtml: React.Dispatch<
