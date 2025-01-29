@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Box, useMediaQuery } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import Logo from "@/components/shared/Logo";
 import ContentInteractionPanel from "@/components/panel/ContentInteractionPanel";
 import DeploymentPanel from "@/components/panel/DeploymentPanel";
@@ -17,8 +18,15 @@ export default function MainContent() {
   >([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRendered, setIsRendered] = useState<boolean>(false);
-
   const [isTabletOrMobile] = useMediaQuery("(max-width: 1280px)");
+  const router = useRouter();
+
+  const resetPage = () => {
+    setSnapshotHtml(null);
+    setSelectedBlocksHtml([]);
+    setIsRendered(false);
+    router.replace("/");
+  };
 
   return (
     <ErrorBoundary>
@@ -30,7 +38,7 @@ export default function MainContent() {
         justifyContent="center"
         minH="100vh"
       >
-        <Logo isRendered={isRendered} />
+        <Logo isRendered={isRendered} onClick={resetPage} />
         <Box
           display="flex"
           flexDirection={isTabletOrMobile ? "column" : "row"}
