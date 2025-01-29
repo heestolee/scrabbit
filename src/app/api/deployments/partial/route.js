@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { waitForSSLCertification } from "@/lib/waitForSSLCertification";
-import { createStyledLayout } from "@/lib/createStyledLayout";
+import { waitForSSLCertification } from "@/utils/waitForSSLCertification";
+import { createStyledLayout } from "@/utils/createStyledLayout";
 
 export async function POST(request) {
   try {
