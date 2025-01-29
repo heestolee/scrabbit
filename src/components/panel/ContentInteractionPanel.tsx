@@ -30,6 +30,7 @@ export default function ContentInteractionPanel({
   deployMode,
   setDeployMode,
   snapshotHtml,
+  selectedBlocksHtml,
   setSelectedBlocksHtml,
   setSnapshotHtml,
   isLoading,
@@ -99,6 +100,7 @@ export default function ContentInteractionPanel({
           <FetchedPageRenderer
             deployMode={deployMode}
             snapshotHtml={snapshotHtml}
+            selectedBlocksHtml={selectedBlocksHtml}
             setSelectedBlocksHtml={setSelectedBlocksHtml}
           />
         ) : (
