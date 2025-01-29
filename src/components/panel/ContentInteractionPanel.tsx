@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box } from "@chakra-ui/react";
-import Carousel from "@/components/carousel/Carousel";
+import ExpansionCards from "@/components/expansion-cards/ExpansionCards";
 import DeployModeSelector from "@/components/form/DeployModeSelector";
 import UrlInputArea from "@/components/form/UrlInputArea";
 import LoadingAnimation from "@/components/shared/LoadingAnimation";
@@ -80,6 +80,7 @@ export default function ContentInteractionPanel({
       </Box>
 
       <Box
+        minH="50vh"
         maxH="80vh"
         w="100%"
         mt="4"
@@ -91,14 +92,16 @@ export default function ContentInteractionPanel({
         boxShadow="sm"
         borderRadius="md"
       >
-        {!isLoading && !isRendered && <Carousel />}
-        {isLoading && <LoadingAnimation />}
-        {snapshotHtml && (
+        {isLoading ? (
+          <LoadingAnimation />
+        ) : snapshotHtml ? (
           <FetchedPageRenderer
             deployMode={deployMode}
             snapshotHtml={snapshotHtml}
             setSelectedBlocksHtml={setSelectedBlocksHtml}
           />
+        ) : (
+          <ExpansionCards />
         )}
       </Box>
     </Box>
