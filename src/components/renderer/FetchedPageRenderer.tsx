@@ -24,15 +24,15 @@ export default function FetchedPageRenderer({
     title: string;
     description: string;
   } | null>(null);
-  const [scale, setScale] = useState<number>(1);
+  const [zoom, setZoom] = useState<number>(1);
   const hoverTimer = useRef<number | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
       const targetWidth = 1200;
-      const calculatedScale = Math.min(1, width / targetWidth);
-      setScale(calculatedScale);
+      const calculatedZoom = Math.min(1, width / targetWidth);
+      setZoom(calculatedZoom);
     };
 
     handleResize();
@@ -119,9 +119,8 @@ export default function FetchedPageRenderer({
         onClick={handleOnClick}
         style={{
           cursor: deployMode === "partial" ? "pointer" : "default",
-          transform: `scale(${scale})`,
+          zoom: zoom,
           transformOrigin: "top left",
-          width: `${100 / scale}%`,
         }}
       />
       <style>
