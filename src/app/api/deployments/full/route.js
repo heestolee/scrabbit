@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { waitForSSLCertification } from "@/utils/waitForSSLCertification";
+import { waitForSSLCertification } from "@/entities/deploy/utils/waitForSSLCertification";
 
 export async function POST(request) {
   const { subdomain, deployContent } = await request.json();

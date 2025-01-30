@@ -2,7 +2,7 @@
 
 import * as Sentry from "@sentry/nextjs";
 import { useEffect } from "react";
-import { useErrorToast } from "@/hooks/useErrorToast";
+import { useErrorToast } from "@/shared/hooks/useErrorToast";
 
 export default function GlobalError({
   error,

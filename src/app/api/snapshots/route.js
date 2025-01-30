@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import takePreviewSnapshot from "@/service/puppeteerPreviewSnapshot";
+import takePreviewSnapshot from "@/features/snapshot/utils/puppeteerPreviewSnapshot";
 
 export async function POST(request) {
   try {

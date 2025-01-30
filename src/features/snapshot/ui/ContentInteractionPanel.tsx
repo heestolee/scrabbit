@@ -3,12 +3,12 @@ import { Box } from "@chakra-ui/react";
 import ExpansionCards from "@/entities/guide/ui/ExpansionCards";
 import DeployModeSelector from "@/entities/deploy/ui/DeployModeSelector";
 import UrlInputArea from "@/features/snapshot/ui/UrlInputArea";
-import LoadingAnimation from "@/components/shared/LoadingAnimation";
+import LoadingAnimation from "@/shared/ui/LoadingAnimation";
 import FetchedPageRenderer from "@/features/snapshot/ui/FetchedPageRenderer";
 import { fetchPage } from "@/features/snapshot/api/fetchPage";
-import commonStyles from "@/theme/commonStyles";
+import commonStyles from "@/shared/theme/commonStyles";
 import { Mode } from "../../../app/MainContent";
-import { useErrorToast } from "@/hooks/useErrorToast";
+import { useErrorToast } from "@/shared/hooks/useErrorToast";
 
 interface ContentInteractionPanelProps {
   deployMode: Mode;

@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import DOMPurify from "isomorphic-dompurify";
 import { Mode } from "../../../app/MainContent";
-import { useErrorToast } from "@/hooks/useErrorToast";
+import { useErrorToast } from "@/shared/hooks/useErrorToast";
 
 interface FetchedPageRendererProps {
   snapshotHtml: string | null;

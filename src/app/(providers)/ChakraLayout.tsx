@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
-import theme from "@/theme";
+import theme from "@/shared/theme";
 
 interface ChakraLayoutProps {
   children: ReactNode;

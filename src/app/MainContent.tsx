@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import Logo from "@/components/shared/Logo";
+import Logo from "@/shared/ui/Logo";
 import ContentInteractionPanel from "@/features/snapshot/ui/ContentInteractionPanel";
 import DeploymentPanel from "@/features/deploy/ui/DeploymentPanel";
 
