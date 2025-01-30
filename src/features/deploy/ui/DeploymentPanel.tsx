@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import DomainInputArea from "@/components/form/DomainInputArea";
-import DeployPreviewRenderer from "@/components/renderer/DeployPreviewRenderer";
-import DeployModal from "@/components/modal/DeployModal";
-import { deployPage } from "@/actions/deployPage";
+import DomainInputArea from "@/features/deploy/ui/DomainInputArea";
+import DeployPreviewRenderer from "@/features/deploy/ui/DeployPreviewRenderer";
+import DeployModal from "@/features/deploy/ui/DeployModal";
+import { deployPage } from "@/features/deploy/api/deployPage";
 import commonStyles from "@/theme/commonStyles";
-import { Mode } from "../layout/MainContent";
+import { Mode } from "../../../app/MainContent";
 import { useErrorToast } from "@/hooks/useErrorToast";
 
 interface DeploymentPanelProps {

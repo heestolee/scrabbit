@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Box } from "@chakra-ui/react";
-import ChakraLayout from "@/components/layout/ChakraLayout";
+import ChakraLayout from "@/app/(providers)/ChakraLayout";
 
 export default function GuideLayout({ children }: { children: ReactNode }) {
   return (

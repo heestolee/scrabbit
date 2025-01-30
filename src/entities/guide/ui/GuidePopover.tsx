@@ -6,7 +6,7 @@ import {
   PopoverBody,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { TooltipButton } from "@/components/guide/TooltipButton";
+import { TooltipButton } from "@/entities/guide/ui/TooltipButton";
 
 type GuidePopoverProps = {
   children: React.JSX.Element;

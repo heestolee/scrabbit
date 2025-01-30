@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/shared/Logo";
-import ContentInteractionPanel from "@/components/panel/ContentInteractionPanel";
-import DeploymentPanel from "@/components/panel/DeploymentPanel";
+import ContentInteractionPanel from "@/features/snapshot/ui/ContentInteractionPanel";
+import DeploymentPanel from "@/features/deploy/ui/DeploymentPanel";
 
 export type Mode = "full" | "partial";
 

@@ -3,7 +3,7 @@
 import React from "react";
 import { Box, Center } from "@chakra-ui/react";
 import commonStyles from "@/theme/commonStyles";
-import { Mode } from "../layout/MainContent";
+import { Mode } from "../../../app/MainContent";
 
 interface DeployPreviewRendererProps {
   deployMode: Mode;

@@ -1,6 +1,6 @@
 "use server";
 
-import { Mode } from "@/components/layout/MainContent";
+import { Mode } from "@/app/MainContent";
 
 export interface DeployPageInput {
   subdomain: string;

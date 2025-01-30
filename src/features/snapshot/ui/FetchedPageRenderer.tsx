@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import DOMPurify from "isomorphic-dompurify";
-import { Mode } from "../layout/MainContent";
+import { Mode } from "../../../app/MainContent";
 import { useErrorToast } from "@/hooks/useErrorToast";
 
 interface FetchedPageRendererProps {

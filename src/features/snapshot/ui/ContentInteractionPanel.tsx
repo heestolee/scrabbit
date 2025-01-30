@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Box } from "@chakra-ui/react";
-import ExpansionCards from "@/components/expansion-cards/ExpansionCards";
-import DeployModeSelector from "@/components/form/DeployModeSelector";
-import UrlInputArea from "@/components/form/UrlInputArea";
+import ExpansionCards from "@/entities/guide/ui/ExpansionCards";
+import DeployModeSelector from "@/entities/deploy/ui/DeployModeSelector";
+import UrlInputArea from "@/features/snapshot/ui/UrlInputArea";
 import LoadingAnimation from "@/components/shared/LoadingAnimation";
-import FetchedPageRenderer from "@/components/renderer/FetchedPageRenderer";
-import { fetchPage } from "@/actions/fetchPage";
+import FetchedPageRenderer from "@/features/snapshot/ui/FetchedPageRenderer";
+import { fetchPage } from "@/features/snapshot/api/fetchPage";
 import commonStyles from "@/theme/commonStyles";
-import { Mode } from "../layout/MainContent";
+import { Mode } from "../../../app/MainContent";
 import { useErrorToast } from "@/hooks/useErrorToast";
 
 interface ContentInteractionPanelProps {
@@ -71,7 +71,7 @@ export default function ContentInteractionPanel({
       </Box>
 
       <Box
-        minH="50vh"
+        minH={isLoading || isRendered ? "80vh" : "50vh"}
         maxH="80vh"
         w="100%"
         mt="4"

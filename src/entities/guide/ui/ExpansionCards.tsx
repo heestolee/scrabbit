@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Image, Text, Flex } from "@chakra-ui/react";
-import slides from "@/components/expansion-cards/slides";
+import slides from "@/entities/guide/utils/slides";
 
 export default function ExpansionCards() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
