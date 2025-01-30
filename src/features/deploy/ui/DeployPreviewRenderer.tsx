@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Box, Center } from "@chakra-ui/react";
-import commonStyles from "@/theme/commonStyles";
+import commonStyles from "@/shared/theme/commonStyles";
 import { Mode } from "../../../app/MainContent";
 
 interface DeployPreviewRendererProps {

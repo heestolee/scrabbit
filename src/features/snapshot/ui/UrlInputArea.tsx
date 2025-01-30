@@ -1,7 +1,7 @@
 import React from "react";
-import FormContainer from "@/components/shared/FormContainer";
-import InputField from "@/components/shared/InputField";
-import SubmitButton from "@/components/shared/SubmitButton";
+import FormContainer from "@/shared/ui/FormContainer";
+import InputField from "@/shared/ui/InputField";
+import SubmitButton from "@/shared/ui/SubmitButton";
 
 export interface UrlInputAreaProps {
   sourceUrl: string;

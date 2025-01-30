@@ -7,9 +7,9 @@ import DomainInputArea from "@/features/deploy/ui/DomainInputArea";
 import DeployPreviewRenderer from "@/features/deploy/ui/DeployPreviewRenderer";
 import DeployModal from "@/features/deploy/ui/DeployModal";
 import { deployPage } from "@/features/deploy/api/deployPage";
-import commonStyles from "@/theme/commonStyles";
+import commonStyles from "@/shared/theme/commonStyles";
 import { Mode } from "../../../app/MainContent";
-import { useErrorToast } from "@/hooks/useErrorToast";
+import { useErrorToast } from "@/shared/hooks/useErrorToast";
 
 interface DeploymentPanelProps {
   isRendered: boolean;
