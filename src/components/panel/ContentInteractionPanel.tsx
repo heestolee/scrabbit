@@ -5,11 +5,10 @@ import DeployModeSelector from "@/components/form/DeployModeSelector";
 import UrlInputArea from "@/components/form/UrlInputArea";
 import LoadingAnimation from "@/components/shared/LoadingAnimation";
 import FetchedPageRenderer from "@/components/renderer/FetchedPageRenderer";
-import ErrorAlert from "@/components/error-boundary/ErrorAlert";
 import { fetchPage } from "@/actions/fetchPage";
-import { handleError } from "@/utils/errorHandler";
 import commonStyles from "@/theme/commonStyles";
 import { Mode } from "../layout/MainContent";
+import { useErrorToast } from "@/hooks/useErrorToast";
 
 interface ContentInteractionPanelProps {
   deployMode: Mode;
@@ -39,10 +38,7 @@ export default function ContentInteractionPanel({
   setIsRendered,
 }: ContentInteractionPanelProps) {
   const [sourceUrl, setSourceUrl] = useState<string>("");
-  const [error, setError] = useState<{
-    title: string;
-    description: string;
-  } | null>(null);
+  const showErrorToast = useErrorToast();
 
   const handleFetch = async (sourceUrl: string) => {
     setIsLoading(true);
@@ -53,7 +49,7 @@ export default function ContentInteractionPanel({
       setSnapshotHtml(snapshotHtml);
       setIsRendered(true);
     } catch (error) {
-      setError(handleError(error));
+      showErrorToast("🚨 페이지 가져오기 실패", error);
     } finally {
       setIsLoading(false);
     }
@@ -61,13 +57,6 @@ export default function ContentInteractionPanel({
 
   return (
     <Box {...commonStyles.panelContainer}>
-      {error && (
-        <ErrorAlert
-          title={error.title}
-          description={error.description}
-          onClose={() => setError(null)}
-        />
-      )}
       <Box {...commonStyles.panelContent}>
         <DeployModeSelector
           deployMode={deployMode}
@@ -88,8 +77,7 @@ export default function ContentInteractionPanel({
         mt="4"
         bg="white"
         alignContent="center"
-        overflowX="auto"
-        overflowY="auto"
+        overflow="auto"
         sx={commonStyles.scrollBar}
         boxShadow="sm"
         borderRadius="md"

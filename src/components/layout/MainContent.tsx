@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import Logo from "@/components/shared/Logo";
 import ContentInteractionPanel from "@/components/panel/ContentInteractionPanel";
 import DeploymentPanel from "@/components/panel/DeploymentPanel";
-import ErrorBoundary from "@/components/error-boundary/ErrorBoundary";
 
 export type Mode = "full" | "partial";
 
@@ -29,47 +28,45 @@ export default function MainContent() {
   };
 
   return (
-    <ErrorBoundary>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      bg="gray.100"
+      justifyContent="center"
+      minH="100vh"
+    >
+      <Logo isRendered={isRendered} onClick={resetPage} />
       <Box
         display="flex"
-        flexDirection="column"
-        alignItems="center"
-        bg="gray.100"
+        flexDirection={isTabletOrMobile ? "column" : "row"}
+        w="full"
         justifyContent="center"
-        minH="100vh"
+        alignItems="center"
+        height="100%"
+        gap="20px"
       >
-        <Logo isRendered={isRendered} onClick={resetPage} />
-        <Box
-          display="flex"
-          flexDirection={isTabletOrMobile ? "column" : "row"}
-          w="full"
-          justifyContent="center"
-          alignItems="center"
-          height="100%"
-          gap="20px"
-        >
-          <ContentInteractionPanel
-            deployMode={deployMode}
-            setDeployMode={setDeployMode}
-            snapshotHtml={snapshotHtml}
-            selectedBlocksHtml={selectedBlocksHtml}
-            setSelectedBlocksHtml={setSelectedBlocksHtml}
-            setSnapshotHtml={setSnapshotHtml}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
+        <ContentInteractionPanel
+          deployMode={deployMode}
+          setDeployMode={setDeployMode}
+          snapshotHtml={snapshotHtml}
+          selectedBlocksHtml={selectedBlocksHtml}
+          setSelectedBlocksHtml={setSelectedBlocksHtml}
+          setSnapshotHtml={setSnapshotHtml}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          isRendered={isRendered}
+          setIsRendered={setIsRendered}
+        />
+        {isRendered && (
+          <DeploymentPanel
             isRendered={isRendered}
-            setIsRendered={setIsRendered}
+            deployMode={deployMode}
+            selectedBlocksHtml={selectedBlocksHtml}
+            snapshotHtml={snapshotHtml}
           />
-          {!isLoading && isRendered && (
-            <DeploymentPanel
-              isRendered={isRendered}
-              deployMode={deployMode}
-              selectedBlocksHtml={selectedBlocksHtml}
-              snapshotHtml={snapshotHtml}
-            />
-          )}
-        </Box>
+        )}
       </Box>
-    </ErrorBoundary>
+    </Box>
   );
 }

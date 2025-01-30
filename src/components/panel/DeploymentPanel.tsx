@@ -1,16 +1,15 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import DomainInputArea from "@/components/form/DomainInputArea";
 import DeployPreviewRenderer from "@/components/renderer/DeployPreviewRenderer";
 import DeployModal from "@/components/modal/DeployModal";
-import ErrorAlert from "@/components/error-boundary/ErrorAlert";
 import { deployPage } from "@/actions/deployPage";
-import { handleError } from "@/utils/errorHandler";
 import commonStyles from "@/theme/commonStyles";
 import { Mode } from "../layout/MainContent";
+import { useErrorToast } from "@/hooks/useErrorToast";
 
 interface DeploymentPanelProps {
   isRendered: boolean;
@@ -28,10 +27,7 @@ export default function DeploymentPanel({
   const [subdomain, setSubdomain] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
-  const [error, setError] = useState<{
-    title: string;
-    description: string;
-  } | null>(null);
+  const showErrorToast = useErrorToast();
 
   const handleDeploy = async () => {
     try {
@@ -44,7 +40,7 @@ export default function DeploymentPanel({
 
       setModalMessage(`배포된 사이트: ${url}`);
     } catch (error) {
-      setError(handleError(error));
+      showErrorToast("🚨 배포 실패", error);
     } finally {
       setIsModalOpen(true);
     }
@@ -59,13 +55,6 @@ export default function DeploymentPanel({
       {...commonStyles.panelContainer}
       w={{ base: "90%", md: "80%", lg: "65%", xl: "30%" }}
     >
-      {error && (
-        <ErrorAlert
-          title={error.title}
-          description={error.description}
-          onClose={() => setError(null)}
-        />
-      )}
       <motion.div
         initial={{ opacity: 0, x: -50, width: 0 }}
         animate={

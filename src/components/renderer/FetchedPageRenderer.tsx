@@ -1,9 +1,8 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import DOMPurify from "isomorphic-dompurify";
-import { handleError } from "@/utils/errorHandler";
-import ErrorAlert from "@/components/error-boundary/ErrorAlert";
 import { Mode } from "../layout/MainContent";
+import { useErrorToast } from "@/hooks/useErrorToast";
 
 interface FetchedPageRendererProps {
   snapshotHtml: string | null;
@@ -20,10 +19,7 @@ export default function FetchedPageRenderer({
   selectedBlocksHtml,
   setSelectedBlocksHtml,
 }: FetchedPageRendererProps) {
-  const [error, setError] = useState<{
-    title: string;
-    description: string;
-  } | null>(null);
+  const showErrorToast = useErrorToast();
   const [scale, setScale] = useState<number>(1);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -73,17 +69,15 @@ export default function FetchedPageRenderer({
 
         setSelectedBlocksHtml((prev) => {
           const isSelected = prev.some((block) => block.id === blockId);
-          const updatedBlocks = isSelected
+          return isSelected
             ? prev.filter((block) => block.id !== blockId)
             : [...prev, { id: blockId, html: blockHtml }];
-
-          return updatedBlocks;
         });
       } catch (error) {
-        setError(handleError(error));
+        showErrorToast("🚨 블럭 선택 오류", error);
       }
     },
-    [deployMode, setSelectedBlocksHtml],
+    [deployMode, setSelectedBlocksHtml, showErrorToast],
   );
 
   const handleMouseOver = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -91,7 +85,6 @@ export default function FetchedPageRenderer({
     e.stopPropagation();
 
     const blockElement = (e.target as HTMLElement).closest("[data-block-id]");
-
     if (blockElement) {
       blockElement.setAttribute("data-hovered", "true");
     }
@@ -125,13 +118,6 @@ export default function FetchedPageRenderer({
 
   return (
     <Box id="left-panel">
-      {error && (
-        <ErrorAlert
-          title={error.title}
-          description={error.description}
-          onClose={() => setError(null)}
-        />
-      )}
       <div
         ref={containerRef}
         dangerouslySetInnerHTML={{ __html: snapshotHtml }}
