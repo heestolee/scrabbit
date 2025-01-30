@@ -12,6 +12,7 @@ export interface DeployPageInput {
 export interface DeployPageResult {
   url?: string;
   error?: string;
+  status: number;
 }
 
 export async function deployPage({
@@ -46,12 +47,15 @@ export async function deployPage({
     const data = (await response.json()) as { url?: string; error?: string };
 
     if (response.ok) {
-      return { url: data.url };
+      return { url: data.url, status: 200 };
     } else {
-      return { error: data.error || "배포 실패" };
+      return {
+        error: data.error || "페이지 생성 실패",
+        status: response.status,
+      };
     }
   } catch (error) {
-    console.error("배포 중 오류 발생:", error);
-    return { error: "배포 실패" };
+    console.error("페이지 생성 중 오류 발생:", error);
+    return { error: "페이지 생성 실패", status: 500 };
   }
 }

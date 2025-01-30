@@ -27,20 +27,28 @@ export default function DeploymentPanel({
   const [subdomain, setSubdomain] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
+  const [statusCode, setStatusCode] = useState<number | null>(null);
   const showErrorToast = useErrorToast();
 
   const handleDeploy = async () => {
     try {
-      const { url } = await deployPage({
+      const { url, error, status } = await deployPage({
         subdomain,
         deployMode,
         selectedBlocksHtml,
         snapshotHtml,
       });
 
-      setModalMessage(`배포된 사이트: ${url}`);
+      if (url) {
+        setModalMessage(url);
+      } else {
+        setModalMessage(error || "페이지 생성 중 오류 발생");
+      }
+      setStatusCode(status);
     } catch (error) {
-      showErrorToast("🚨 배포 실패", error);
+      showErrorToast("🚨 페이지 생성 실패", error);
+      setModalMessage("페이지 생성 중 오류 발생");
+      setStatusCode(500);
     } finally {
       setIsModalOpen(true);
     }
@@ -81,6 +89,7 @@ export default function DeploymentPanel({
           <DeployModal
             isModalOpen={isModalOpen}
             modalMessage={modalMessage}
+            statusCode={statusCode}
             closeModal={closeModal}
           />
         </Box>
