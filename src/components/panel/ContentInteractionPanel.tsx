@@ -78,7 +78,7 @@ export default function ContentInteractionPanel({
         bg="white"
         alignContent="center"
         overflow="auto"
-        sx={commonStyles.scrollBar}
+        sx={isRendered ? commonStyles.scrollBar : ""}
         boxShadow="sm"
         borderRadius="md"
       >
