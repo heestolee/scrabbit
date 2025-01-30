@@ -99,7 +99,7 @@ export default function GuideText({ isTabletOrMobile }: GuideTextProps) {
       </UnorderedList>
 
       <Text {...subheadingStyle(isTabletOrMobile)}>
-        2-2. 서브도메인 입력 및 배포
+        2-2. 서브도메인 입력 및 페이지 생성
       </Text>
       <UnorderedList {...unorderedListStyle(isTabletOrMobile)}>
         <ListItem>생성 버튼 왼쪽의 빈 칸에 서브도메인 입력을 합니다.</ListItem>
@@ -108,7 +108,7 @@ export default function GuideText({ isTabletOrMobile }: GuideTextProps) {
         </ListItem>
         <ListItem>이미 사용된 서브도메인은 사용할 수 없습니다.</ListItem>
         <ListItem>
-          등록에는 약간의 시간이 소요될 수 있습니다. (최대 2분)
+          생성에는 약간의 시간이 소요될 수 있습니다. (최대 2분)
         </ListItem>
       </UnorderedList>
     </Box>

@@ -4,12 +4,12 @@ import { InfoOutlineIcon } from "@chakra-ui/icons";
 
 type TooltipButtonProps = {
   isTooltipDisabled: boolean;
-  onClick: () => void;
+  onMouseDown: (e: React.MouseEvent) => void;
 };
 
 export const TooltipButton = ({
   isTooltipDisabled,
-  onClick,
+  onMouseDown,
 }: TooltipButtonProps) => {
   return (
     <Box>
@@ -30,7 +30,7 @@ export const TooltipButton = ({
           height="10"
           boxShadow="lg"
           _hover={{ backgroundColor: "blue.400" }}
-          onClick={onClick}
+          onMouseDown={onMouseDown}
         >
           <Icon as={InfoOutlineIcon} w="5" h="5" />
         </Button>
