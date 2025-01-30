@@ -1,5 +1,5 @@
 export default async function notionEvaluate(page) {
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
     const images = document.querySelectorAll("img");
     images.forEach((img) => {
       const src = img.getAttribute("src");
@@ -7,14 +7,13 @@ export default async function notionEvaluate(page) {
         img.setAttribute("src", `https://www.notion.site${src}`);
       }
     });
-  });
 
-  await page.evaluate(() => {
-    const targetDiv = Array.from(document.querySelectorAll("div")).find(
-      (div) => div.style.order === "3" && div.style.overflow === "hidden",
-    );
-    if (targetDiv) {
-      targetDiv.style.overflow = "unset";
+    const toggleButtons = document.querySelectorAll("div[role='button']");
+    for (const button of toggleButtons) {
+      if (button.getAttribute("aria-expanded") === "false") {
+        button.click();
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
     }
 
     const style = document.createElement("style");
@@ -25,18 +24,11 @@ export default async function notionEvaluate(page) {
       }
 
       .notion-page-content {
-        max-width: 900px;
         margin: 0 auto;
-        transform: zoom(0.9);
-        transform-origin: top center;
       }
 
       .notion-cursor-listener {
         width: 100% !important;
-      }
-
-      .notion-scroller.vertical {
-        overflow: unset !important;
       }
 
       .pseudoSelection {
@@ -51,10 +43,34 @@ export default async function notionEvaluate(page) {
         display: none;
       }
 
-      .notion-numbered_list-block,
-      .notion-bulleted_list-block {
-        width: auto !important;
-        height: auto !important;
+      div[role='button'] {
+        cursor: pointer;
+        position: relative;
+        padding-left: 20px;
+      }
+
+      div[role='button']::before {
+        content: '▶';
+        position: absolute;
+        left: 0px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 12px;
+        color: gray;
+      }
+
+      div[role='button'][aria-expanded='true']::before {
+        content: '▼';
+      }
+
+      .notion-toggle-content {
+        transition: max-height 0.3s ease-in-out;
+        overflow: hidden;
+        max-height: 1000px;
+      }
+
+      .notion-toggle-content.collapsed {
+        max-height: 0;
       }
 
       .notion-bulleted_list-block {
