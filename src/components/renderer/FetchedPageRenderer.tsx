@@ -24,15 +24,15 @@ export default function FetchedPageRenderer({
     title: string;
     description: string;
   } | null>(null);
-  const [zoom, setZoom] = useState<number>(1);
+  const [scale, setScale] = useState<number>(1);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
       const targetWidth = 1200;
-      const calculatedZoom = Math.min(1, width / targetWidth);
-      setZoom(calculatedZoom);
+      const calculatedScale = Math.min(1, width / targetWidth);
+      setScale(calculatedScale);
     };
 
     handleResize();
@@ -140,7 +140,7 @@ export default function FetchedPageRenderer({
         onClick={handleOnClick}
         style={{
           cursor: deployMode === "partial" ? "pointer" : "default",
-          zoom: zoom,
+          scale: scale,
           transformOrigin: "top left",
         }}
       />
