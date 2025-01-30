@@ -10,16 +10,28 @@ export default async function takePreviewSnapshot(sourceUrl) {
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
-      "headless",
+      "--disable-web-security",
+      "--disable-features=IsolateOrigins,site-per-process",
       "--disable-gpu",
       "--disable-dev-shm-usage",
     ],
   });
 
   const page = await browser.newPage();
-  await page.setViewport({ width: 1200, height: 800 });
 
   try {
+    console.log("Setting up request interception...");
+    await page.setRequestInterception(true);
+
+    page.on("request", (request) => {
+      const headers = request.headers();
+      headers["Origin"] =
+        process.env.NODE_ENV === "production"
+          ? "https://www.scrabbit.site"
+          : "http://localhost:3000";
+      request.continue({ headers });
+    });
+
     console.log("Puppeteer navigating to URL: ", sourceUrl);
     await page.goto(sourceUrl, {
       waitUntil: "networkidle2",
@@ -34,7 +46,7 @@ export default async function takePreviewSnapshot(sourceUrl) {
     console.log("body loaded");
 
     switch (true) {
-      case sourceUrl.includes("notion.site" || "notion.so"):
+      case sourceUrl.includes("notion.site") || sourceUrl.includes("notion.so"):
         await notionEvaluate(page);
         break;
       default:
