@@ -16,14 +16,14 @@ export async function POST(request) {
         },
       },
     );
+
     if (domainCheckResponse.ok) {
       const domainData = await domainCheckResponse.json();
-      if (
-        domainData.domains &&
-        domainData.domains.some(
-          (domain) => domain.name === `${subdomain}.scrabbit.site`,
-        )
-      ) {
+      const isDomainExists = domainData.domains?.some(
+        (domain) => domain.name === `${subdomain}.scrabbit.site`,
+      );
+
+      if (isDomainExists) {
         return NextResponse.json(
           {
             error:
@@ -88,7 +88,7 @@ export async function POST(request) {
       throw new Error("Failed to set custom domain.");
     }
 
-    waitForSSLCertification(subdomain);
+    await waitForSSLCertification(subdomain);
 
     return NextResponse.json({ url: `https://${subdomain}.scrabbit.site` });
   } catch (error) {

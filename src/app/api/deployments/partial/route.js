@@ -92,7 +92,7 @@ export async function POST(request) {
       throw new Error("Failed to set custom domain.");
     }
 
-    waitForSSLCertification(subdomain);
+    await waitForSSLCertification(subdomain);
 
     return NextResponse.json({ url: `https://${subdomain}.scrabbit.site` });
   } catch (error) {
