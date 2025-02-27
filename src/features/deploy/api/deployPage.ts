@@ -1,20 +1,19 @@
-import { useMutation } from "@tanstack/react-query";
 import { Mode } from "@/app/MainContent";
 
-interface DeployPageInput {
+export interface DeployPageInput {
   subdomain: string;
   deployMode: Mode;
   selectedBlocksHtml: { id: string; html: string }[];
   snapshotHtml: string | null;
 }
 
-interface DeployPageResult {
+export interface DeployPageResult {
   url?: string;
   error?: string;
   status: number;
 }
 
-const deployPage = async ({
+export const deployPage = async ({
   subdomain,
   deployMode,
   selectedBlocksHtml,
@@ -50,10 +49,4 @@ const deployPage = async ({
   }
 
   return { url: data.url, status: 200 };
-};
-
-export const useDeployPage = () => {
-  return useMutation({
-    mutationFn: deployPage,
-  });
 };

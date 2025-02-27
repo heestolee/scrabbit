@@ -1,5 +1,5 @@
 import { Box, FormControl, FormLabel, Switch } from "@chakra-ui/react";
-import { Mode } from "../layout/MainContent";
+import { Mode } from "@/app/MainContent";
 
 interface DeployModeSelectorProps {
   deployMode: Mode;

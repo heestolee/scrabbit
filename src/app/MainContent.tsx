@@ -13,6 +13,7 @@ export type Mode = "full" | "partial";
 export default function MainContent() {
   const [deployMode, setDeployMode] = useState<Mode>("full");
   const [isRendered, setIsRendered] = useState<boolean>(false);
+  const [subdomain, setSubdomain] = useState<string>("");
   const [isTabletOrMobile] = useMediaQuery("(max-width: 1280px)");
   const router = useRouter();
 
@@ -66,6 +67,8 @@ export default function MainContent() {
             deployMode={deployMode}
             selectedBlocksHtml={selectedBlocksHtml}
             snapshotHtml={snapshotHtml}
+            subdomain={subdomain}
+            setSubdomain={setSubdomain}
           />
         )}
       </Box>

@@ -1,21 +1,19 @@
-"use client";
-
-import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import DomainInputArea from "@/features/deploy/ui/DomainInputArea";
 import DeployPreviewRenderer from "@/features/deploy/ui/DeployPreviewRenderer";
 import DeployModal from "@/features/deploy/ui/DeployModal";
-import { useDeployPage } from "@/features/deploy/api/deployPage";
+import { useDeploy } from "@/features/deploy/model/useDeploy";
 import commonStyles from "@/shared/theme/commonStyles";
 import { Mode } from "../../../app/MainContent";
-import { useErrorToast } from "@/shared/hooks/useErrorToast";
 
 interface DeploymentPanelProps {
   isRendered: boolean;
   deployMode: Mode;
   selectedBlocksHtml: { id: string; html: string }[];
   snapshotHtml: string | null;
+  subdomain: string;
+  setSubdomain: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function DeploymentPanel({
@@ -23,46 +21,27 @@ export default function DeploymentPanel({
   deployMode,
   selectedBlocksHtml,
   snapshotHtml,
+  subdomain,
+  setSubdomain,
 }: DeploymentPanelProps) {
-  const [subdomain, setSubdomain] = useState<string>("");
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [modalMessage, setModalMessage] = useState<string>("");
-  const [statusCode, setStatusCode] = useState<number | null>(null);
-  const showErrorToast = useErrorToast();
-  const { mutate: deployPage, isPending: isDeploying } = useDeployPage();
+  const {
+    deploy,
+    isDeploying,
+    isModalOpen,
+    modalMessage,
+    statusCode,
+    closeModal,
+  } = useDeploy();
 
   const handleDeploy = () => {
-    if (!subdomain.trim()) {
-      showErrorToast(
-        "🚨 서브도메인을 입력하세요.",
-        "서브도메인 값이 비어 있습니다.",
-      );
-      return;
-    }
+    if (!subdomain.trim()) return;
 
-    deployPage(
-      { subdomain, deployMode, selectedBlocksHtml, snapshotHtml },
-      {
-        onSuccess: ({ url }) => {
-          setModalMessage(url ?? "배포 성공");
-          setStatusCode(200);
-        },
-        onError: (error) => {
-          const errorMessage =
-            error instanceof Error ? error.message : "페이지 생성 중 오류 발생";
-          showErrorToast("🚨 페이지 생성 실패", errorMessage);
-          setModalMessage(errorMessage);
-          setStatusCode(500);
-        },
-        onSettled: () => {
-          setIsModalOpen(true);
-        },
-      },
-    );
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
+    deploy({
+      subdomain,
+      deployMode,
+      selectedBlocksHtml,
+      snapshotHtml,
+    });
   };
 
   return (
@@ -78,15 +57,11 @@ export default function DeploymentPanel({
             : { opacity: 0, x: -50, width: 0 }
         }
         transition={{ duration: 0.5, ease: "easeOut" }}
-        style={{
-          position: "relative",
-          overflow: "hidden",
-        }}
       >
         <Box display="flex" flexDirection="column" gap="4">
           <DomainInputArea
             subdomain={subdomain}
-            setSubdomain={(value) => setSubdomain(value ?? "")}
+            setSubdomain={setSubdomain}
             handleDeploy={handleDeploy}
           />
           <DeployPreviewRenderer
