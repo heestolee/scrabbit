@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import DomainInputArea from "@/features/deploy/ui/DomainInputArea";
 import DeployPreviewRenderer from "@/features/deploy/ui/DeployPreviewRenderer";
 import DeployModal from "@/features/deploy/ui/DeployModal";
-import { deployPage } from "@/features/deploy/api/deployPage";
+import { useDeployPage } from "@/features/deploy/api/deployPage";
 import commonStyles from "@/shared/theme/commonStyles";
 import { Mode } from "../../../app/MainContent";
 import { useErrorToast } from "@/shared/hooks/useErrorToast";
@@ -29,29 +29,36 @@ export default function DeploymentPanel({
   const [modalMessage, setModalMessage] = useState<string>("");
   const [statusCode, setStatusCode] = useState<number | null>(null);
   const showErrorToast = useErrorToast();
+  const { mutate: deployPage, isPending: isDeploying } = useDeployPage();
 
-  const handleDeploy = async () => {
-    try {
-      const { url, error, status } = await deployPage({
-        subdomain,
-        deployMode,
-        selectedBlocksHtml,
-        snapshotHtml,
-      });
-
-      if (url) {
-        setModalMessage(url);
-      } else {
-        setModalMessage(error || "페이지 생성 중 오류 발생");
-      }
-      setStatusCode(status);
-    } catch (error) {
-      showErrorToast("🚨 페이지 생성 실패", error);
-      setModalMessage("페이지 생성 중 오류 발생");
-      setStatusCode(500);
-    } finally {
-      setIsModalOpen(true);
+  const handleDeploy = () => {
+    if (!subdomain.trim()) {
+      showErrorToast(
+        "🚨 서브도메인을 입력하세요.",
+        "서브도메인 값이 비어 있습니다.",
+      );
+      return;
     }
+
+    deployPage(
+      { subdomain, deployMode, selectedBlocksHtml, snapshotHtml },
+      {
+        onSuccess: ({ url }) => {
+          setModalMessage(url ?? "배포 성공");
+          setStatusCode(200);
+        },
+        onError: (error) => {
+          const errorMessage =
+            error instanceof Error ? error.message : "페이지 생성 중 오류 발생";
+          showErrorToast("🚨 페이지 생성 실패", errorMessage);
+          setModalMessage(errorMessage);
+          setStatusCode(500);
+        },
+        onSettled: () => {
+          setIsModalOpen(true);
+        },
+      },
+    );
   };
 
   const closeModal = () => {
@@ -79,7 +86,7 @@ export default function DeploymentPanel({
         <Box display="flex" flexDirection="column" gap="4">
           <DomainInputArea
             subdomain={subdomain}
-            setSubdomain={setSubdomain}
+            setSubdomain={(value) => setSubdomain(value ?? "")}
             handleDeploy={handleDeploy}
           />
           <DeployPreviewRenderer
