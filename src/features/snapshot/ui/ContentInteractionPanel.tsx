@@ -5,7 +5,7 @@ import DeployModeSelector from "@/entities/deploy/ui/DeployModeSelector";
 import UrlInputArea from "@/features/snapshot/ui/UrlInputArea";
 import LoadingAnimation from "@/shared/ui/LoadingAnimation";
 import FetchedPageRenderer from "@/features/snapshot/ui/FetchedPageRenderer";
-import { fetchPage } from "@/features/snapshot/api/fetchPage";
+import { useFetchPage } from "@/features/snapshot/api/fetchPage";
 import commonStyles from "@/shared/theme/commonStyles";
 import { Mode } from "../../../app/MainContent";
 import { useErrorToast } from "@/shared/hooks/useErrorToast";
@@ -39,20 +39,24 @@ export default function ContentInteractionPanel({
 }: ContentInteractionPanelProps) {
   const [sourceUrl, setSourceUrl] = useState<string>("");
   const showErrorToast = useErrorToast();
+  const { mutate: fetchPage, isPending: isFetching } = useFetchPage();
 
   const handleFetch = async (sourceUrl: string) => {
     setIsLoading(true);
     setSnapshotHtml(null);
 
-    try {
-      const { snapshotHtml } = await fetchPage(sourceUrl);
-      setSnapshotHtml(snapshotHtml);
-      setIsRendered(true);
-    } catch (error) {
-      showErrorToast("🚨 페이지 가져오기 실패", error);
-    } finally {
-      setIsLoading(false);
-    }
+    fetchPage(sourceUrl, {
+      onSuccess: ({ snapshotHtml }) => {
+        setSnapshotHtml(snapshotHtml);
+        setIsRendered(true);
+      },
+      onError: (error) => {
+        showErrorToast("🚨 페이지 가져오기 실패", error);
+      },
+      onSettled: () => {
+        setIsLoading(false);
+      },
+    });
   };
 
   return (
