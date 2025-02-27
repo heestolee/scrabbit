@@ -6,19 +6,23 @@ import { useRouter } from "next/navigation";
 import Logo from "@/shared/ui/Logo";
 import ContentInteractionPanel from "@/features/snapshot/ui/ContentInteractionPanel";
 import DeploymentPanel from "@/features/deploy/ui/DeploymentPanel";
+import { useSnapshotData } from "@/features/snapshot/model/useSnapshotData";
 
 export type Mode = "full" | "partial";
 
 export default function MainContent() {
   const [deployMode, setDeployMode] = useState<Mode>("full");
-  const [snapshotHtml, setSnapshotHtml] = useState<string | null>(null);
-  const [selectedBlocksHtml, setSelectedBlocksHtml] = useState<
-    { id: string; html: string }[]
-  >([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRendered, setIsRendered] = useState<boolean>(false);
   const [isTabletOrMobile] = useMediaQuery("(max-width: 1280px)");
   const router = useRouter();
+
+  const {
+    snapshotHtml,
+    selectedBlocksHtml,
+    setSelectedBlocksHtml,
+    fetchSnapshot,
+    isFetching,
+  } = useSnapshotData();
 
   const resetPage = () => {
     setSnapshotHtml(null);
@@ -52,13 +56,11 @@ export default function MainContent() {
           snapshotHtml={snapshotHtml}
           selectedBlocksHtml={selectedBlocksHtml}
           setSelectedBlocksHtml={setSelectedBlocksHtml}
-          setSnapshotHtml={setSnapshotHtml}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-          isRendered={isRendered}
+          fetchSnapshot={fetchSnapshot}
+          isFetching={isFetching}
           setIsRendered={setIsRendered}
         />
-        {isRendered && (
+        {isRendered && snapshotHtml && (
           <DeploymentPanel
             isRendered={isRendered}
             deployMode={deployMode}

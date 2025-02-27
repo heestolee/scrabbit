@@ -1,10 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
-
 interface FetchPageResult {
   snapshotHtml: string | null;
 }
 
-const fetchPage = async (sourceUrl: string): Promise<FetchPageResult> => {
+export const fetchPage = async (sourceUrl: string): Promise<string | null> => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const response = await fetch(`${baseUrl}/api/snapshots`, {
@@ -18,11 +16,6 @@ const fetchPage = async (sourceUrl: string): Promise<FetchPageResult> => {
     throw new Error(errorData?.message || "페이지를 가져오는 데 실패했습니다.");
   }
 
-  return response.json();
-};
-
-export const useFetchPage = () => {
-  return useMutation({
-    mutationFn: fetchPage,
-  });
+  const data: FetchPageResult = await response.json();
+  return data.snapshotHtml;
 };
