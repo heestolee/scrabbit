@@ -32,10 +32,6 @@ export default async function defaultEvaluate(page) {
       }
     });
 
-    document.querySelectorAll("link[rel='stylesheet']").forEach((link) => {
-      link.remove();
-    });
-
     const images = Array.from(document.querySelectorAll("img[src*='.svg']"));
     for (const img of images) {
       try {

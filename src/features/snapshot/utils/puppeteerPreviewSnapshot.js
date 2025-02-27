@@ -10,14 +10,14 @@ export default async function takePreviewSnapshot(sourceUrl) {
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
-      "--disable-web-security",
-      "--disable-features=IsolateOrigins,site-per-process",
+      "headless",
       "--disable-gpu",
       "--disable-dev-shm-usage",
     ],
   });
 
   const page = await browser.newPage();
+  await page.setViewport({ width: 1200, height: 800 });
 
   try {
     console.log("Setting up request interception...");
@@ -46,7 +46,7 @@ export default async function takePreviewSnapshot(sourceUrl) {
     console.log("body loaded");
 
     switch (true) {
-      case sourceUrl.includes("notion.site") || sourceUrl.includes("notion.so"):
+      case sourceUrl.includes("notion.site" || "notion.so"):
         await notionEvaluate(page);
         break;
       default:
