@@ -1,9 +1,10 @@
-import { ReactElement } from "react";
+import { ColorModeScript } from "@chakra-ui/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import theme from "@/shared/theme";
 
 type RootLayoutProps = {
-  children: ReactElement;
-  guide: ReactElement;
+  children: React.ReactElement;
+  guide: React.ReactElement;
 };
 
 export const metadata = {
@@ -18,10 +19,10 @@ export default function RootLayout({ children, guide }: RootLayoutProps) {
   }
 
   return (
-    <html lang="ko">
-      <head />
-      <body>
-        <GoogleAnalytics gaId={GA_ID!} />
+    <html lang="ko" suppressHydrationWarning>
+      <body className="chakra-ui-light">
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
         {children}
         {guide}
       </body>
