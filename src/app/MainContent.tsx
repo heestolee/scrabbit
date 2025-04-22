@@ -8,8 +8,6 @@ import ContentInteractionPanel from "@/features/snapshot/ui/ContentInteractionPa
 import DeploymentPanel from "@/features/deploy/ui/DeploymentPanel";
 import { useSnapshotData } from "@/features/snapshot/model/useSnapshotData";
 
-export type Mode = "full" | "partial";
-
 export default function MainContent() {
   const [deployMode, setDeployMode] = useState<Mode>("full");
   const [isRendered, setIsRendered] = useState<boolean>(false);
