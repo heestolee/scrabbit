@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import ExpansionCards from "@/entities/guide/ui/ExpansionCards";
 import DeployModeSelector from "@/entities/deploy/ui/DeployModeSelector";
@@ -6,39 +6,32 @@ import UrlInputArea from "@/features/snapshot/ui/UrlInputArea";
 import LoadingAnimation from "@/shared/ui/LoadingAnimation";
 import FetchedPageRenderer from "@/features/snapshot/ui/FetchedPageRenderer";
 import commonStyles from "@/shared/theme/commonStyles";
-import { Mode } from "../../../app/MainContent";
+import { useDeployStore } from "@/features/deploy/model/store";
 import { useErrorToast } from "@/shared/hooks/useErrorToast";
 
 interface ContentInteractionPanelProps {
-  deployMode: Mode;
-  setDeployMode: (mode: Mode) => void;
   snapshotHtml: string | null;
-  selectedBlocksHtml: { id: string; html: string }[];
-  setSelectedBlocksHtml: React.Dispatch<
-    React.SetStateAction<{ id: string; html: string }[]>
-  >;
   fetchSnapshot: (sourceUrl: string) => void;
-  isFetching: boolean;
-  setIsRendered: (rendered: boolean) => void;
+  isSnapshotFetching: boolean;
 }
 
 export default function ContentInteractionPanel({
-  deployMode,
-  setDeployMode,
   snapshotHtml,
-  selectedBlocksHtml,
-  setSelectedBlocksHtml,
   fetchSnapshot,
-  isFetching,
-  setIsRendered,
+  isSnapshotFetching,
 }: ContentInteractionPanelProps) {
   const [sourceUrl, setSourceUrl] = useState<string>("");
   const showErrorToast = useErrorToast();
+  const { markAsRendered } = useDeployStore();
 
-  const handleFetch = async (sourceUrl: string): Promise<void> => {
+  const handleChangeSourceUrl = (value: string) => {
+    setSourceUrl(value);
+  };
+
+  const handleSubmitUrl = async (url: string) => {
     try {
-      fetchSnapshot(sourceUrl);
-      setIsRendered(true);
+      fetchSnapshot(url);
+      markAsRendered();
     } catch (error) {
       showErrorToast("🚨 페이지 가져오기 실패", error);
     }
@@ -47,20 +40,17 @@ export default function ContentInteractionPanel({
   return (
     <Box {...commonStyles.panelContainer}>
       <Box {...commonStyles.panelContent}>
-        <DeployModeSelector
-          deployMode={deployMode}
-          setDeployMode={setDeployMode}
-        />
+        <DeployModeSelector />
         <UrlInputArea
           sourceUrl={sourceUrl}
-          setSourceUrl={setSourceUrl}
-          handleFetch={handleFetch}
-          isLoading={isFetching}
+          onChangeSourceUrl={handleChangeSourceUrl}
+          onSubmitUrl={handleSubmitUrl}
+          isLoading={isSnapshotFetching}
         />
       </Box>
 
       <Box
-        minH={isFetching || snapshotHtml ? "80vh" : "50vh"}
+        minH={isSnapshotFetching || snapshotHtml ? "80vh" : "50vh"}
         maxH="80vh"
         w="100%"
         mt="4"
@@ -71,15 +61,10 @@ export default function ContentInteractionPanel({
         boxShadow="sm"
         borderRadius="md"
       >
-        {isFetching ? (
+        {isSnapshotFetching ? (
           <LoadingAnimation />
         ) : snapshotHtml ? (
-          <FetchedPageRenderer
-            deployMode={deployMode}
-            snapshotHtml={snapshotHtml}
-            selectedBlocksHtml={selectedBlocksHtml}
-            setSelectedBlocksHtml={setSelectedBlocksHtml}
-          />
+          <FetchedPageRenderer snapshotHtml={snapshotHtml} />
         ) : (
           <ExpansionCards />
         )}

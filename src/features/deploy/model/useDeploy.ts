@@ -16,7 +16,7 @@ export function useDeploy() {
     Error,
     DeployPageInput
   >({
-    mutationFn: (data) => deployPage(data),
+    mutationFn: deployPage,
     onSuccess: ({ url }) => {
       setModalMessage(url ?? "배포 성공");
       setStatusCode(200);
@@ -39,9 +39,11 @@ export function useDeploy() {
   return {
     deploy,
     isDeploying,
-    isModalOpen,
-    modalMessage,
-    statusCode,
-    closeModal,
+    modal: {
+      statusCode,
+      isOpen: isModalOpen,
+      message: modalMessage,
+      close: closeModal,
+    },
   };
 }

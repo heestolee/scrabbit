@@ -5,31 +5,33 @@ import SubmitButton from "@/shared/ui/SubmitButton";
 
 interface DomainInputAreaProps {
   subdomain: string;
-  setSubdomain: React.Dispatch<React.SetStateAction<string>>;
-  handleDeploy: () => void;
+  onChangeSubdomain: (value: string) => void;
+  onSubmit: () => void;
+  isLoading: boolean;
 }
 
 export default function DomainInputArea({
   subdomain,
-  setSubdomain,
-  handleDeploy,
+  onChangeSubdomain,
+  onSubmit,
+  isLoading,
 }: DomainInputAreaProps) {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleDeploy();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit();
   };
 
   return (
     <FormContainer onSubmit={handleSubmit}>
       <InputField
         value={subdomain}
-        onChange={(e) => setSubdomain(e.target.value)}
+        onChange={(e) => onChangeSubdomain(e.target.value)}
         placeholder="생성할 서브 주소 입력"
         prefix="https://"
         suffix=".scrabbit.site"
         px="2"
       />
-      <SubmitButton label="생성" colorScheme="green" />
+      <SubmitButton label="생성" colorScheme="green" isLoading={isLoading} />
     </FormContainer>
   );
 }

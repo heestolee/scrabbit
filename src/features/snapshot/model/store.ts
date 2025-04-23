@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface Block {
+export interface Block {
   id: string;
   html: string;
 }

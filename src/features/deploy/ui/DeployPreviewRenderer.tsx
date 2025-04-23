@@ -1,13 +1,13 @@
 "use client";
 
-import React from "react";
 import { Box, Center } from "@chakra-ui/react";
 import commonStyles from "@/shared/theme/commonStyles";
-import { Mode } from "../../../app/MainContent";
+import { Mode } from "@/features/deploy/model/store";
+import { Block } from "@/features/snapshot/model/store";
 
 interface DeployPreviewRendererProps {
   deployMode: Mode;
-  selectedBlocksHtml: { id: string; html: string }[];
+  selectedBlocksHtml: Block[];
 }
 
 export default function DeployPreviewRenderer({
@@ -35,12 +35,10 @@ export default function DeployPreviewRenderer({
         style={{ zoom: 0.6 }}
       >
         {deployMode === "partial" && selectedBlocksHtml.length ? (
-          selectedBlocksHtml.map((block, id) => (
+          selectedBlocksHtml.map((block, idx) => (
             <Box
-              key={id}
-              dangerouslySetInnerHTML={{
-                __html: block.html,
-              }}
+              key={idx}
+              dangerouslySetInnerHTML={{ __html: block.html }}
               h="max-content"
             />
           ))

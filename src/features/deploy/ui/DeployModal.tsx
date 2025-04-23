@@ -28,18 +28,15 @@ export default function DeployModal({
   closeModal,
 }: DeployModalProps) {
   const [isCopied, setIsCopied] = useState(false);
-  const [tooltipLabel, setTooltipLabel] = useState("주소 복사");
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(modalMessage);
       setIsCopied(true);
-      setTooltipLabel("복사 완료!");
     } catch (error) {
       console.error(error);
     }
   };
-
   const getHeaderMessage = (statusCode: number | null) => {
     switch (statusCode) {
       case 200:
@@ -55,11 +52,12 @@ export default function DeployModal({
 
   const closeModalWithReset = () => {
     setIsCopied(false);
-    setTooltipLabel("주소 복사");
     closeModal();
   };
 
   const isSuccess = statusCode === 200;
+  const tooltipLabel = isCopied ? "복사 완료!" : "주소 복사";
+  const headerMessage = getHeaderMessage(statusCode);
 
   return (
     <Modal isOpen={isModalOpen} onClose={closeModal} isCentered>
@@ -79,19 +77,13 @@ export default function DeployModal({
               <WarningIcon boxSize={8} color="red.400" />
             )}
             <Text fontSize="lg" fontWeight="bold">
-              {getHeaderMessage(statusCode)}
+              {headerMessage}
             </Text>
           </Flex>
         </ModalHeader>
         <ModalBody textAlign="center" pb={6}>
           {isSuccess ? (
-            <Flex
-              direction="column"
-              alignItems="center"
-              justify="center"
-              gap={2}
-              mb={2}
-            >
+            <Flex direction="column" align="center" gap={2}>
               <Text
                 as="a"
                 href={modalMessage}
@@ -101,12 +93,7 @@ export default function DeployModal({
               >
                 {modalMessage}
               </Text>
-              {isCopied && (
-                <Text fontSize="sm" color="green.500" mt={1}>
-                  주소가 복사되었습니다.
-                </Text>
-              )}
-              <Tooltip label={tooltipLabel} fontSize="sm" hasArrow>
+              <Tooltip label={tooltipLabel} hasArrow>
                 <Button
                   bg="gray.200"
                   _hover={{ bg: "gray.300" }}
@@ -133,12 +120,7 @@ export default function DeployModal({
             <Text fontSize="md">{modalMessage}</Text>
           )}
         </ModalBody>
-        <ModalFooter
-          color="white"
-          justifyContent="center"
-          p={0}
-          borderRadius="0 0 md md"
-        >
+        <ModalFooter p={0}>
           <Button
             w="100%"
             h="50px"

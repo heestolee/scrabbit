@@ -1,27 +1,23 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React from "react";
 import { Box } from "@chakra-ui/react";
 import DOMPurify from "isomorphic-dompurify";
-import { Mode } from "../../../app/MainContent";
+import { useDeployStore } from "@/features/deploy/model/store";
+import { useSnapshotStore } from "@/features/snapshot/model/store";
 import { useErrorToast } from "@/shared/hooks/useErrorToast";
+import { useEffect, useState, useCallback, useRef } from "react";
 
-interface FetchedPageRendererProps {
+export interface FetchedPageRendererProps {
   snapshotHtml: string | null;
-  deployMode: Mode;
-  selectedBlocksHtml: { id: string; html: string }[];
-  setSelectedBlocksHtml: React.Dispatch<
-    React.SetStateAction<{ id: string; html: string }[]>
-  >;
 }
 
 export default function FetchedPageRenderer({
   snapshotHtml,
-  deployMode,
-  selectedBlocksHtml,
-  setSelectedBlocksHtml,
 }: FetchedPageRendererProps) {
+  const { deployMode } = useDeployStore();
+  const { selectedBlocksHtml, setSelectedBlocksHtml } = useSnapshotStore();
   const showErrorToast = useErrorToast();
-  const [scale, setScale] = useState<number>(1);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [scale, setScale] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,12 +26,9 @@ export default function FetchedPageRenderer({
       const calculatedScale = Math.min(1, width / targetWidth);
       setScale(calculatedScale);
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const updateSelectedBlocks = () => {
@@ -44,7 +37,10 @@ export default function FetchedPageRenderer({
         containerRef.current.querySelectorAll("[data-block-id]");
       allBlocks.forEach((block) => {
         const blockId = block.getAttribute("data-block-id");
-        if (blockId && selectedBlocksHtml.some((b) => b.id === blockId)) {
+        if (
+          blockId &&
+          selectedBlocksHtml.some((block) => block.id === blockId)
+        ) {
           block.setAttribute("data-selected", "true");
         } else {
           block.removeAttribute("data-selected");
@@ -55,14 +51,14 @@ export default function FetchedPageRenderer({
 
   useEffect(() => {
     updateSelectedBlocks();
-  }, [selectedBlocksHtml]);
+  }, [selectedBlocksHtml, updateSelectedBlocks]);
 
   const handleBlockClick = useCallback(
-    (blockId: string, blockElement: HTMLElement) => {
+    (blockId: string, element: HTMLElement) => {
       if (deployMode !== "partial") return;
 
       try {
-        const blockHtml = DOMPurify.sanitize(blockElement.outerHTML, {
+        const sanitizedHtml = DOMPurify.sanitize(element.outerHTML, {
           ADD_TAGS: ["iframe"],
           ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"],
         });
@@ -71,7 +67,7 @@ export default function FetchedPageRenderer({
           const isSelected = prev.some((block) => block.id === blockId);
           return isSelected
             ? prev.filter((block) => block.id !== blockId)
-            : [...prev, { id: blockId, html: blockHtml }];
+            : [...prev, { id: blockId, html: sanitizedHtml }];
         });
       } catch (error) {
         showErrorToast("🚨 블럭 선택 오류", error);
@@ -126,7 +122,7 @@ export default function FetchedPageRenderer({
         onClick={handleOnClick}
         style={{
           cursor: deployMode === "partial" ? "pointer" : "default",
-          scale: scale,
+          scale,
           transformOrigin: "top left",
         }}
       />

@@ -1,32 +1,24 @@
 "use client";
 
-import { useState } from "react";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import Logo from "@/shared/ui/Logo";
 import ContentInteractionPanel from "@/features/snapshot/ui/ContentInteractionPanel";
 import DeploymentPanel from "@/features/deploy/ui/DeploymentPanel";
 import { useSnapshotData } from "@/features/snapshot/model/useSnapshotData";
+import { useDeployStore } from "@/features/deploy/model/store";
+import { useSnapshotStore } from "@/features/snapshot/model/store";
 
 export default function MainContent() {
-  const [deployMode, setDeployMode] = useState<Mode>("full");
-  const [isRendered, setIsRendered] = useState<boolean>(false);
-  const [subdomain, setSubdomain] = useState<string>("");
   const [isTabletOrMobile] = useMediaQuery("(max-width: 1280px)");
   const router = useRouter();
-
-  const {
-    snapshotHtml,
-    selectedBlocksHtml,
-    setSelectedBlocksHtml,
-    fetchSnapshot,
-    isFetching,
-  } = useSnapshotData();
+  const { isRendered, resetDeployState } = useDeployStore();
+  const { resetSelectedBlocks } = useSnapshotStore();
+  const { snapshotHtml, fetchSnapshot, isSnapshotFetching } = useSnapshotData();
 
   const resetPage = () => {
-    setSnapshotHtml(null);
-    setSelectedBlocksHtml([]);
-    setIsRendered(false);
+    resetDeployState();
+    resetSelectedBlocks();
     router.replace("/");
   };
 
@@ -50,24 +42,12 @@ export default function MainContent() {
         gap="20px"
       >
         <ContentInteractionPanel
-          deployMode={deployMode}
-          setDeployMode={setDeployMode}
           snapshotHtml={snapshotHtml}
-          selectedBlocksHtml={selectedBlocksHtml}
-          setSelectedBlocksHtml={setSelectedBlocksHtml}
           fetchSnapshot={fetchSnapshot}
-          isFetching={isFetching}
-          setIsRendered={setIsRendered}
+          isSnapshotFetching={isSnapshotFetching}
         />
         {isRendered && snapshotHtml && (
-          <DeploymentPanel
-            isRendered={isRendered}
-            deployMode={deployMode}
-            selectedBlocksHtml={selectedBlocksHtml}
-            snapshotHtml={snapshotHtml}
-            subdomain={subdomain}
-            setSubdomain={setSubdomain}
-          />
+          <DeploymentPanel snapshotHtml={snapshotHtml} />
         )}
       </Box>
     </Box>

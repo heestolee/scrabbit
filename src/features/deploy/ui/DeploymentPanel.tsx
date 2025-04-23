@@ -5,36 +5,23 @@ import DeployPreviewRenderer from "@/features/deploy/ui/DeployPreviewRenderer";
 import DeployModal from "@/features/deploy/ui/DeployModal";
 import { useDeploy } from "@/features/deploy/model/useDeploy";
 import commonStyles from "@/shared/theme/commonStyles";
-import { Mode } from "../../../app/MainContent";
+import { useDeployStore } from "@/features/deploy/model/store";
+import { useSnapshotStore } from "@/features/snapshot/model/store";
 
 interface DeploymentPanelProps {
-  isRendered: boolean;
-  deployMode: Mode;
-  selectedBlocksHtml: { id: string; html: string }[];
-  snapshotHtml: string | null;
-  subdomain: string;
-  setSubdomain: React.Dispatch<React.SetStateAction<string>>;
+  snapshotHtml: string;
 }
 
 export default function DeploymentPanel({
-  isRendered,
-  deployMode,
-  selectedBlocksHtml,
   snapshotHtml,
-  subdomain,
-  setSubdomain,
 }: DeploymentPanelProps) {
-  const {
-    deploy,
-    isDeploying,
-    isModalOpen,
-    modalMessage,
-    statusCode,
-    closeModal,
-  } = useDeploy();
+  const { isRendered, subdomain, deployMode, updateSubdomain } =
+    useDeployStore();
+  const { selectedBlocksHtml } = useSnapshotStore();
+  const { deploy, isDeploying, modal } = useDeploy();
 
   const handleDeploy = () => {
-    if (!subdomain.trim()) return;
+    if (!subdomain.trim() || isDeploying) return;
 
     deploy({
       subdomain,
@@ -61,18 +48,19 @@ export default function DeploymentPanel({
         <Box display="flex" flexDirection="column" gap="4">
           <DomainInputArea
             subdomain={subdomain}
-            setSubdomain={setSubdomain}
-            handleDeploy={handleDeploy}
+            onChangeSubdomain={updateSubdomain}
+            onSubmit={handleDeploy}
+            isLoading={isDeploying}
           />
           <DeployPreviewRenderer
             deployMode={deployMode}
             selectedBlocksHtml={selectedBlocksHtml}
           />
           <DeployModal
-            isModalOpen={isModalOpen}
-            modalMessage={modalMessage}
-            statusCode={statusCode}
-            closeModal={closeModal}
+            isModalOpen={modal.isOpen}
+            modalMessage={modal.message}
+            statusCode={modal.statusCode}
+            closeModal={modal.close}
           />
         </Box>
       </motion.div>
