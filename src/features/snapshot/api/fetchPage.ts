@@ -17,5 +17,5 @@ export const fetchPage = async (sourceUrl: string): Promise<string | null> => {
   }
 
   const data: FetchPageResult = await response.json();
-  return data.snapshotHtml;
+  return data.snapshotHtml ?? null;
 };
