@@ -1,10 +1,11 @@
+import { ReactElement } from "react";
 import { ColorModeScript } from "@chakra-ui/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import theme from "@/shared/theme";
 
 type RootLayoutProps = {
-  children: React.ReactElement;
-  guide: React.ReactElement;
+  children: ReactElement;
+  guide: ReactElement;
 };
 
 export const metadata = {
