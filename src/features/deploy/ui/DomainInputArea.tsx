@@ -27,8 +27,8 @@ export default function DomainInputArea({
         value={subdomain}
         onChange={(e) => onChangeSubdomain(e.target.value)}
         placeholder="생성할 서브 주소 입력"
-        prefix="https://"
-        suffix=".scrabbit.site"
+        prefix={<span style={{ color: "black" }}>https://</span>}
+        suffix={<span style={{ color: "black" }}>.scrabbit.site</span>}
         px="2"
       />
       <SubmitButton label="생성" colorScheme="green" isLoading={isLoading} />
