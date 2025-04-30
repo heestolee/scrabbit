@@ -18,7 +18,7 @@ export function useDeploy() {
   >({
     mutationFn: deployPage,
     onSuccess: ({ url }) => {
-      setModalMessage(url ?? "배포 성공");
+      setModalMessage(url);
       setStatusCode(200);
       setIsModalOpen(true);
       queryClient.invalidateQueries({ queryKey: ["snapshotHtml"] });

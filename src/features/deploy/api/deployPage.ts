@@ -8,7 +8,7 @@ export interface DeployPageInput {
 }
 
 export interface DeployPageResult {
-  url?: string;
+  url: string;
   error?: string;
   status: number;
 }
