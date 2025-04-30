@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchPage } from "@/features/snapshot/api/fetchPage";
-import { useSnapshotStore } from "@/features/snapshot/model/store";
+import { useSnapshotStore } from "@/features/snapshot/model/useSnapshotStore";
 
 export function useSnapshotData() {
   const queryClient = useQueryClient();

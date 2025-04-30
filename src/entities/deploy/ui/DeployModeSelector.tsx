@@ -1,5 +1,5 @@
 import { Box, FormControl, FormLabel, Switch } from "@chakra-ui/react";
-import { useDeployStore } from "@/features/deploy/model/store";
+import { useDeployStore } from "@/features/deploy/model/useDeployStore";
 
 export default function DeployModeSelector() {
   const { deployMode, startFullDeploy, startPartialDeploy } = useDeployStore();

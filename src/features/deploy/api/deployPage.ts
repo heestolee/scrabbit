@@ -1,4 +1,4 @@
-import { Mode } from "@/features/deploy/model/store";
+import { Mode } from "@/features/deploy/model/useDeployStore";
 
 export interface DeployPageInput {
   subdomain: string;

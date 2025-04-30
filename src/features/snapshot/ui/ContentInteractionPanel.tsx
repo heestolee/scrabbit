@@ -6,7 +6,7 @@ import UrlInputArea from "@/features/snapshot/ui/UrlInputArea";
 import LoadingAnimation from "@/shared/ui/LoadingAnimation";
 import FetchedPageRenderer from "@/features/snapshot/ui/FetchedPageRenderer";
 import commonStyles from "@/shared/theme/commonStyles";
-import { useDeployStore } from "@/features/deploy/model/store";
+import { useDeployStore } from "@/features/deploy/model/useDeployStore";
 import { useErrorToast } from "@/shared/hooks/useErrorToast";
 
 interface ContentInteractionPanelProps {

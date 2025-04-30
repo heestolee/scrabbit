@@ -2,8 +2,8 @@
 
 import { Box, Center } from "@chakra-ui/react";
 import commonStyles from "@/shared/theme/commonStyles";
-import { Mode } from "@/features/deploy/model/store";
-import { Block } from "@/features/snapshot/model/store";
+import { Mode } from "@/features/deploy/model/useDeployStore";
+import { Block } from "@/features/snapshot/model/useSnapshotStore";
 
 interface DeployPreviewRendererProps {
   deployMode: Mode;

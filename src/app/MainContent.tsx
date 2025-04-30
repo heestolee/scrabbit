@@ -6,8 +6,8 @@ import Logo from "@/shared/ui/Logo";
 import ContentInteractionPanel from "@/features/snapshot/ui/ContentInteractionPanel";
 import DeploymentPanel from "@/features/deploy/ui/DeploymentPanel";
 import { useSnapshotData } from "@/features/snapshot/model/useSnapshotData";
-import { useDeployStore } from "@/features/deploy/model/store";
-import { useSnapshotStore } from "@/features/snapshot/model/store";
+import { useDeployStore } from "@/features/deploy/model/useDeployStore";
+import { useSnapshotStore } from "@/features/snapshot/model/useSnapshotStore";
 
 export default function MainContent() {
   const [isTabletOrMobile] = useMediaQuery("(max-width: 1280px)");

@@ -1,8 +1,8 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 import DOMPurify from "isomorphic-dompurify";
-import { useDeployStore } from "@/features/deploy/model/store";
-import { useSnapshotStore } from "@/features/snapshot/model/store";
+import { useDeployStore } from "@/features/deploy/model/useDeployStore";
+import { useSnapshotStore } from "@/features/snapshot/model/useSnapshotStore";
 import { useErrorToast } from "@/shared/hooks/useErrorToast";
 import { useEffect, useState, useCallback, useRef } from "react";
 

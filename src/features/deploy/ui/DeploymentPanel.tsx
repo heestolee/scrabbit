@@ -5,8 +5,8 @@ import DeployPreviewRenderer from "@/features/deploy/ui/DeployPreviewRenderer";
 import DeployModal from "@/features/deploy/ui/DeployModal";
 import { useDeploy } from "@/features/deploy/model/useDeploy";
 import commonStyles from "@/shared/theme/commonStyles";
-import { useDeployStore } from "@/features/deploy/model/store";
-import { useSnapshotStore } from "@/features/snapshot/model/store";
+import { useDeployStore } from "@/features/deploy/model/useDeployStore";
+import { useSnapshotStore } from "@/features/snapshot/model/useSnapshotStore";
 
 interface DeploymentPanelProps {
   snapshotHtml: string;
